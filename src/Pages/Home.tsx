@@ -1,5 +1,6 @@
 import fetchPopularFilm from '../api.tsx'
 import {useEffect, useState} from "react";
+import {FaChevronRight, FaChevronLeft} from "react-icons/fa";
 
 interface Result {
     id: number
@@ -15,29 +16,32 @@ export default function Home() {
     const [popularFilmResult, setPopularFilmResult] = useState<Result[]>([])
     const [indexSlider, setIndexSlider] = useState<number>(0)
 
+    const shuffle = (array: Result[]) => {
+        return [...array].sort(() => Math.random() - 0.5)
+    }
+
     useEffect(() => {
         const popularFilm = async () => {
             const data = await fetchPopularFilm()
-            setPopularFilmResult(data.results)
+            const filtered = data.results.filter((film: Result) => /[а-яёА-ЯЁ]/.test(film.title))
+            setPopularFilmResult(shuffle(filtered))
             console.log(data)
         }
         popularFilm()
     }, [])
 
     const nextFilm = () => {
-        if (indexSlider === 4){
+        if (indexSlider === 4) {
             setIndexSlider(0)
-        }
-        else {
+        } else {
             setIndexSlider(prev => prev + 1)
         }
     }
 
     const prevFilm = () => {
-        if (indexSlider === 0){
+        if (indexSlider === 0) {
             setIndexSlider(4)
-        }
-        else {
+        } else {
             setIndexSlider(prev => prev - 1)
         }
     }
@@ -48,19 +52,41 @@ export default function Home() {
     return (
         <>
             {sliderFilms.length > 0 && (
-                <div className='flex gap-2'>
-                        <div className='border-2 border-black'>
-                            <img src={`https://image.tmdb.org/t/p/original${sliderFilms[indexSlider].backdrop_path}`} alt=""/>
-                            {sliderFilms[indexSlider].title}
+                <div className='grid grid-cols-[70px_1fr_2fr_33px] h-[calc(100vh-60px)] bg-black overflow-hidden relative'>
+
+                    {/* ФОНОВАЯ КАРТИНКА */}
+                    <img src={`https://image.tmdb.org/t/p/original${sliderFilms[indexSlider].backdrop_path}`} alt=""
+                         className='absolute inset-0 w-full h-full object-cover object-right brightness-50 z-0 pl-[20%]'
+                    />
+                    <div className='absolute inset-0 z-10' style={{
+                        background: 'linear-gradient(to right, black 20%, transparent 60%)'
+                    }}/>
+
+                    <button onClick={prevFilm} className='z-20 text-white hover:text-yellow-400 transition'>
+                        <FaChevronLeft size={30}/>
+                    </button>
+
+                    <div className='relative z-20 flex flex-col justify-center gap-4 px-10 text-white'>
+                        <p className='text-yellow-400 uppercase tracking-[4px]'>Trending Now</p>
+                        <h1 className='text-5xl font-bold'>{sliderFilms[indexSlider].title}</h1>
+                        <div className='flex gap-5 text-zinc-400'>
+                            <span>⭐ {sliderFilms[indexSlider].vote_average}</span>
+                            <span>{sliderFilms[indexSlider].release_date}</span>
                         </div>
-                    <button onClick={nextFilm}> Следующий </button>
-                    <button onClick={prevFilm}> Предидущий </button>
+                        <p className='text-zinc-300 leading-6 max-w-[500px]'>{sliderFilms[indexSlider].overview}</p>
+                    </div>
+
+                    <div className='z-0'/>
+
+                    <button onClick={nextFilm} className='z-20 text-white hover:text-yellow-400 transition'>
+                        <FaChevronRight size={30}/>
+                    </button>
                 </div>
             )}
             {popularFilmResult.length > 0 && (
-                <div className='flex gap-2'>
+                <div className='flex gap-2 flex-wrap justify-center'>
                     {otherFilms.map(film => (
-                        <div className='border-2 border-black'>
+                        <div className='border-2 border-black w-[19%]'>
                             <img src={`https://image.tmdb.org/t/p/original${film.poster_path}`} alt=""/>
                             {film.title}
                         </div>
