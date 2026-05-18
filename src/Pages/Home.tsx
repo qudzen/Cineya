@@ -15,6 +15,7 @@ interface Result {
 export default function Home() {
     const [popularFilmResult, setPopularFilmResult] = useState<Result[]>([])
     const [indexSlider, setIndexSlider] = useState<number>(0)
+    const [direction, setDirection] = useState('right')
 
     const shuffle = (array: Result[]) => {
         return [...array].sort(() => Math.random() - 0.5)
@@ -31,6 +32,7 @@ export default function Home() {
     }, [])
 
     const nextFilm = () => {
+        setDirection('right')
         if (indexSlider === 4) {
             setIndexSlider(0)
         } else {
@@ -39,6 +41,7 @@ export default function Home() {
     }
 
     const prevFilm = () => {
+        setDirection('left')
         if (indexSlider === 0) {
             setIndexSlider(4)
         } else {
@@ -55,8 +58,10 @@ export default function Home() {
                 <div className='grid grid-cols-[70px_1fr_2fr_33px] h-[calc(100vh-60px)] bg-black overflow-hidden relative'>
 
                     {/* ФОНОВАЯ КАРТИНКА */}
-                    <img src={`https://image.tmdb.org/t/p/original${sliderFilms[indexSlider].backdrop_path}`} alt=""
-                         className='absolute inset-0 w-full h-full object-cover object-right brightness-50 z-0 pl-[20%]'
+                    <img key={indexSlider} src={`https://image.tmdb.org/t/p/original${sliderFilms[indexSlider].backdrop_path}`} alt=""
+                         className={`absolute inset-0 w-full h-full object-cover object-right brightness-50 z-0 pl-[20%] ${
+                        direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'
+                    }`}
                     />
                     <div className='absolute inset-0 z-10' style={{
                         background: 'linear-gradient(to right, black 20%, transparent 60%)'
@@ -66,7 +71,9 @@ export default function Home() {
                         <FaChevronLeft size={30}/>
                     </button>
 
-                    <div className='relative z-20 flex flex-col justify-center gap-4 px-10 text-white'>
+                    <div key={indexSlider} className={`relative z-20 flex flex-col justify-center gap-4 px-10 text-white ${
+                        direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'
+                    }`}>
                         <p className='text-yellow-400 uppercase tracking-[4px]'>Trending Now</p>
                         <h1 className='text-5xl font-bold'>{sliderFilms[indexSlider].title}</h1>
                         <div className='flex gap-5 text-zinc-400'>
