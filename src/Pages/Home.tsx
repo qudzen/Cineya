@@ -10,6 +10,8 @@ interface Result {
     vote_average: number
     backdrop_path: string
     poster_path: string
+    genre_ids: number[]
+
 }
 
 export default function Home() {
@@ -24,8 +26,8 @@ export default function Home() {
     useEffect(() => {
         const popularFilm = async () => {
             const data = await fetchPopularFilm()
-            const filtered = data.results.filter((film: Result) => /[а-яёА-ЯЁ]/.test(film.title))
-            setPopularFilmResult(shuffle(filtered))
+            //const filtered = data.results.filter((film: Result) => /[а-яёА-ЯЁ]/.test(film.title))
+            setPopularFilmResult(shuffle(data.results))
             console.log(data)
         }
         popularFilm()
@@ -55,13 +57,15 @@ export default function Home() {
     return (
         <>
             {sliderFilms.length > 0 && (
-                <div className='grid grid-cols-[70px_1fr_2fr_33px] h-[calc(100vh-60px)] bg-black overflow-hidden relative'>
+                <div
+                    className='grid grid-cols-[70px_1fr_2fr_33px] h-[calc(100vh-60px)] bg-black overflow-hidden relative'>
 
                     {/* ФОНОВАЯ КАРТИНКА */}
-                    <img key={indexSlider} src={`https://image.tmdb.org/t/p/original${sliderFilms[indexSlider].backdrop_path}`} alt=""
+                    <img key={indexSlider}
+                         src={`https://image.tmdb.org/t/p/original${sliderFilms[indexSlider].backdrop_path}`} alt=""
                          className={`absolute inset-0 w-full h-full object-cover object-right brightness-50 z-0 pl-[20%] ${
-                        direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'
-                    }`}
+                             direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'
+                         }`}
                     />
                     <div className='absolute inset-0 z-10' style={{
                         background: 'linear-gradient(to right, black 20%, transparent 60%)'
@@ -71,9 +75,10 @@ export default function Home() {
                         <FaChevronLeft size={30}/>
                     </button>
 
-                    <div key={indexSlider} className={`relative z-20 flex flex-col justify-center gap-4 px-10 text-white ${
-                        direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'
-                    }`}>
+                    <div key={indexSlider}
+                         className={`relative z-20 flex flex-col justify-center gap-4 px-10 text-white ${
+                             direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'
+                         }`}>
                         <p className='text-yellow-400 uppercase tracking-[4px]'>Trending Now</p>
                         <h1 className='text-5xl font-bold'>{sliderFilms[indexSlider].title}</h1>
                         <div className='flex gap-5 text-zinc-400'>
@@ -91,13 +96,17 @@ export default function Home() {
                 </div>
             )}
             {popularFilmResult.length > 0 && (
-                <div className='flex gap-2 flex-wrap justify-center'>
-                    {otherFilms.map(film => (
-                        <div className='border-2 border-black w-[19%]'>
-                            <img src={`https://image.tmdb.org/t/p/original${film.poster_path}`} alt=""/>
-                            {film.title}
-                        </div>
-                    ))}
+                <div className='mt-7'>
+                    <h1 className='font-bold text-3xl ml-7'>Популярные фильмы</h1>
+                    <div className='flex gap-2 flex-wrap justify-center mt-7 mx-15'>
+                        {otherFilms.map(film => (
+                            <div className='w-60 mt-5 mb-5'>
+                                <img className='' src={`https://image.tmdb.org/t/p/original${film.poster_path}`} alt=""/>
+                                <div className='text-sm text-left mt-2'>{film.title}</div>
+                                <div className='text-sm text-left'>{film.vote_average}</div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
         </>
