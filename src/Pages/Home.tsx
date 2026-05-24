@@ -1,4 +1,4 @@
-import fetchPopularFilm from '../api.tsx'
+import fetchPopularFilm, {fetchGenre} from '../api.tsx'
 import {useEffect, useState} from "react";
 import {FaChevronRight, FaChevronLeft} from "react-icons/fa";
 
@@ -13,11 +13,16 @@ interface Result {
     genre_ids: number[]
 
 }
+interface Genre {
+    id: number,
+    name: string
+}
 
 export default function Home() {
     const [popularFilmResult, setPopularFilmResult] = useState<Result[]>([])
     const [indexSlider, setIndexSlider] = useState<number>(0)
     const [direction, setDirection] = useState('right')
+    const [genre, setGenre] = useState<Genre[]>([])
 
     const shuffle = (array: Result[]) => {
         return [...array].sort(() => Math.random() - 0.5)
@@ -30,7 +35,12 @@ export default function Home() {
             setPopularFilmResult(shuffle(data.results))
             console.log(data)
         }
+        const genreFilm = async () => {
+            const dataGenre = await fetchGenre()
+            setGenre(dataGenre.genres)
+        }
         popularFilm()
+        genreFilm()
     }, [])
 
     const nextFilm = () => {
@@ -100,9 +110,10 @@ export default function Home() {
                     <h1 className='font-bold text-3xl ml-7'>Популярные фильмы</h1>
                     <div className='flex gap-2 flex-wrap justify-center mt-7 mx-15'>
                         {otherFilms.map(film => (
-                            <div className='w-60 mt-5 mb-5'>
+                            <div className='w-60 mt-5 mb-5 text-sm'>
                                 <img className='' src={`https://image.tmdb.org/t/p/original${film.poster_path}`} alt=""/>
                                 <div className='text-sm text-left mt-2'>{film.title}</div>
+                                <div className='text-sm'>{genre.find((g: Genre) => g.id === film.genre_ids[0])?.name}</div>
                                 <div className='text-sm text-left'>{film.vote_average}</div>
                             </div>
                         ))}
