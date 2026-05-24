@@ -1,8 +1,9 @@
 import fetchPopularFilm, {fetchGenre} from '../api.tsx'
 import {useEffect, useState} from "react";
 import {FaChevronRight, FaChevronLeft} from "react-icons/fa";
+import {Link} from 'react-router-dom'
 
-interface Result {
+export interface Result {
     id: number
     title: string
     overview: string
@@ -13,6 +14,7 @@ interface Result {
     genre_ids: number[]
 
 }
+
 interface Genre {
     id: number,
     name: string
@@ -106,16 +108,20 @@ export default function Home() {
                 </div>
             )}
             {popularFilmResult.length > 0 && (
-                <div className='mt-7'>
+                <div className='mt-12'>
                     <h1 className='font-bold text-3xl ml-7'>Популярные фильмы</h1>
-                    <div className='flex gap-2 flex-wrap justify-center mt-7 mx-15'>
+                    <div className='flex gap-2 flex-wrap justify-center mt-7 mx-30'>
                         {otherFilms.map(film => (
-                            <div className='w-60 mt-5 mb-5 text-sm'>
-                                <img className='' src={`https://image.tmdb.org/t/p/original${film.poster_path}`} alt=""/>
-                                <div className='text-sm text-left mt-2'>{film.title}</div>
-                                <div className='text-sm'>{genre.find((g: Genre) => g.id === film.genre_ids[0])?.name}</div>
-                                <div className='text-sm text-left'>{film.vote_average}</div>
-                            </div>
+                            <Link to={`/movie/${film.id}`}>
+                                <div className='w-60 mt-5 mb-5'>
+                                    <img className='' src={`https://image.tmdb.org/t/p/original${film.poster_path}`}
+                                         alt=""/>
+                                    <div className='text-sm text-left mt-2'>{film.title}</div>
+                                    <div
+                                        className='text-sm'>{genre.find((g: Genre) => g.id === film.genre_ids[0])?.name}</div>
+                                    <div className='text-sm text-left'>{Math.round(film.vote_average * 10) / 10}</div>
+                                </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

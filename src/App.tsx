@@ -4,6 +4,7 @@ import Movies from "./Pages/Movies.tsx";
 import Home from "./Pages/Home.tsx";
 import NewMovies from "./Pages/NewMovies.tsx";
 import MyList from "./Pages/MyList.tsx";
+import PageFilm from "./Pages/PageFilm.tsx";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
               <Route path='/movies' element={<Movies />} />
               <Route path='/newMovies' element={<NewMovies />} />
               <Route path='/myList' element={<MyList />} />
+              <Route path='/movie/:id' element={<PageFilm />} />
           </Routes>
         </>
     )
