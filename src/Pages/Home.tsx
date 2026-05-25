@@ -67,7 +67,7 @@ export default function Home() {
     const otherFilms = popularFilmResult.slice(5)
 
     return (
-        <>
+        <div className="bg-black">
             {sliderFilms.length > 0 && (
                 <div
                     className='grid grid-cols-[70px_1fr_2fr_33px] h-[calc(100vh-60px)] bg-black overflow-hidden relative'>
@@ -109,23 +109,23 @@ export default function Home() {
             )}
             {popularFilmResult.length > 0 && (
                 <div className='mt-12'>
-                    <h1 className='font-bold text-3xl ml-7'>Популярные фильмы</h1>
+                    <h1 className='font-bold text-3xl ml-7 text-white'>Популярные фильмы</h1>
                     <div className='flex gap-2 flex-wrap justify-center mt-7 mx-30'>
                         {otherFilms.map(film => (
                             <Link to={`/movie/${film.id}`}>
                                 <div className='w-60 mt-5 mb-5'>
                                     <img className='' src={`https://image.tmdb.org/t/p/original${film.poster_path}`}
                                          alt=""/>
-                                    <div className='text-sm text-left mt-2'>{film.title}</div>
+                                    <div className='text-sm text-left mt-2 text-white'>{film.title}</div>
                                     <div
-                                        className='text-sm'>{genre.find((g: Genre) => g.id === film.genre_ids[0])?.name}</div>
-                                    <div className='text-sm text-left'>{Math.round(film.vote_average * 10) / 10}</div>
+                                        className='text-sm text-white'>{genre.find((g: Genre) => g.id === film.genre_ids[0])?.name}</div>
+                                    <div className='text-sm text-left text-white'>{Math.round(film.vote_average * 10) / 10}</div>
                                 </div>
                             </Link>
                         ))}
                     </div>
                 </div>
             )}
-        </>
+        </div>
     )
 }
