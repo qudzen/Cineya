@@ -15,6 +15,11 @@ export default function Search() {
         const searchText = e.target.value
         setSearch(searchText)
         console.log(searchText);
+        if (searchText.trim() === '') {
+            setResultSearch([])
+            navigate(`/`)
+            return
+        }
     }
 
     const onEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
