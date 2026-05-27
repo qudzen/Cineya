@@ -119,7 +119,7 @@ export default function Home() {
                                     <div className='text-sm text-left mt-2 text-white'>{film.title}</div>
                                     <div
                                         className='text-sm text-white'>{genre.find((g: Genre) => g.id === film.genre_ids[0])?.name}</div>
-                                    <div className='text-sm text-left text-white'>{Math.round(film.vote_average * 10) / 10}</div>
+                                    <div className='text-sm text-left text-white'>{ film.vote_average > 1 ?  (Math.round(film.vote_average * 10) / 10) : 'Скоро'}</div>
                                 </div>
                             </Link>
                         ))}

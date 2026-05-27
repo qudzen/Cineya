@@ -18,11 +18,18 @@ export default function PageFilm() {
         getMovie()
     }, [])
 
-    if (loading) return <div>Загрузка</div>
+    if (loading) return <span className="loading loading-spinner loading-xl"></span>
 
     return (
         <>
-            {movie && <div>{movie.title}</div>}
+            {movie && (
+                <div>
+                    <img className='w-100' src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                         alt=""/>
+                    <div>{movie.title}</div>
+                    <div>{movie.overview}</div>
+                </div>
+            )}
         </>
     )
 }

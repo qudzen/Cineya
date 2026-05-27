@@ -20,3 +20,8 @@ export async function fetchMovie(id: string){
     const data = await response.json()
     return data
 }
+export async function fetchSearch(searchText: string){
+    const responce = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ru-RU&query=${searchText}`);
+    const data = await responce.json()
+    return data
+}
