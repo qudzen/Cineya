@@ -41,7 +41,7 @@ export default function Search() {
     return (
         <>
             <input
-                className='bg-white text-gray-700 border-gray-200 border-2 rounded-2xl px-6 py-3 w-80 transition-all'
+                className='bg-white text-gray-700 border-gray-200 border-2 rounded-2xl px-6 py-3 w-80 transition-all h-10'
                 type="search"
                 placeholder="Search"
                 onChange={onSearch}
