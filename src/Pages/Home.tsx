@@ -92,7 +92,7 @@ export default function Home() {
                              direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'
                          }`}>
                         <p className='text-yellow-400 uppercase tracking-[4px]'>Trending Now</p>
-                        <h1 className='text-5xl font-bold'>{sliderFilms[indexSlider].title}</h1>
+                        <Link to={`/movie/${sliderFilms[indexSlider].id}`}><h1 className='text-5xl font-bold'>{sliderFilms[indexSlider].title}</h1></Link>
                         <div className='flex gap-5 text-zinc-400'>
                             <span>⭐ {sliderFilms[indexSlider].vote_average}</span>
                             <span>{sliderFilms[indexSlider].release_date}</span>
