@@ -1,4 +1,4 @@
-import fetchPopularFilm, {fetchGenre} from '../api.tsx'
+import fetchPopularFilm, {fetchGenre} from '../../api.tsx'
 import {useEffect, useState} from "react";
 import {Link} from 'react-router-dom'
 import SliderFilm from "./SliderFilm.tsx";

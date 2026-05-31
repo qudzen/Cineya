@@ -1,7 +1,7 @@
 import logo from './assets/cineya.png';
 import {Routes, Route, NavLink} from "react-router-dom";
 import Movies from "./Pages/Movies.tsx";
-import Home from "./Pages/Home.tsx";
+import Home from "./Pages/Home/Home.tsx";
 import NewMovies from "./Pages/NewMovies.tsx";
 import MyList from "./Pages/MyList.tsx";
 import PageFilm from "./Pages/PageFilm.tsx";
