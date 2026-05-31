@@ -1,5 +1,5 @@
 import logo from './assets/cineya.png';
-import {Routes, Route, NavLink} from "react-router-dom";
+import {Routes, Route, NavLink, useLocation} from "react-router-dom";
 import Movies from "./Pages/Movies.tsx";
 import Home from "./Pages/Home/Home.tsx";
 import NewMovies from "./Pages/NewMovies.tsx";
@@ -8,6 +8,7 @@ import PageFilm from "./Pages/PageFilm.tsx";
 import Search from "./Pages/Search.tsx";
 
 function App() {
+    const location = useLocation()
 
     return (
         <div className="bg-white text-black">
@@ -17,7 +18,7 @@ function App() {
                 <NavLink to="/movies">Фильмы</NavLink>
                 <NavLink to="/newMovies">Новинки</NavLink>
                 <NavLink to="/myList">Моё</NavLink>
-                <Search />
+                <Search key={location.pathname}/>
             </header>
           <Routes>
               <Route path='/' element={<Home />} />

@@ -2,12 +2,14 @@ import {useEffect, useState} from "react";
 import {fetchSearch} from "../api.tsx";
 import type {Result} from "./Home/Home.tsx";
 import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 
 
 
 export default function Search() {
     const navigate = useNavigate()
+    const location = useLocation()
     const [search, setSearch] = useState<string>('');
     const [resultSearch, setResultSearch] = useState<Result | null>(null);
     const [hints, setHints] = useState<Result[]>([]);
@@ -18,6 +20,7 @@ export default function Search() {
         console.log(searchText);
         if (searchText.trim() === '') {
             setResultSearch(null)
+            setHints([])
             navigate(`/`)
             return
         }
@@ -41,16 +44,12 @@ export default function Search() {
         }
     }
 
-    const selectHints = async () => {
-        if (hints) {
-            navigate(`/movie/${hints.id}`)
-        }
 
-    }
 
     return (
-        <>
+        <div>
             <input
+
                 className='bg-white text-gray-700 border-gray-200 border-2 rounded-2xl px-6 py-3 w-80 transition-all h-10'
                 type="search"
                 placeholder="Search"
@@ -59,10 +58,10 @@ export default function Search() {
                 onKeyDown={onEnter}
             />
             {hints.map(i => (
-                <div onClick={selectHints}>
+                <div onClick={() => (navigate(`/movie/${i.id}`))}>
                     {i.title}
                 </div>
             ))}
-        </>
+        </div>
     )
 }
