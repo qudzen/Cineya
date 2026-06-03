@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {fetchSearch} from "../api.tsx";
 import type {Result} from "./Home/Home.tsx";
 import {useNavigate} from 'react-router-dom'
@@ -9,6 +9,7 @@ export default function Search() {
     const [search, setSearch] = useState<string>('');
     const [resultSearch, setResultSearch] = useState<Result | null>(null);
     const [hints, setHints] = useState<Result[]>([]);
+    const hintsRef = useRef<HTMLDivElement>(null);
 
     const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchText = e.target.value
@@ -40,6 +41,16 @@ export default function Search() {
         }
     }
 
+    useEffect(() => {
+        const handleClickOutside  = (e: MouseEvent) => {
+            if (hintsRef.current && !hintsRef.current.contains(e.target as Node)) {
+                setHints([])
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, []);
+
 
     return (
         <div className='relative'>
@@ -52,7 +63,7 @@ export default function Search() {
                 value={search}
                 onKeyDown={onEnter}
             />
-            <div className='absolute top-full z-50 bg-whiteq'>
+            <div ref={hintsRef} className='absolute top-full z-50 bg-white w-full '>
                 {hints.map(i => (
                     <div onClick={() => (navigate(`/movie/${i.id}`))}>
                         {i.title}
