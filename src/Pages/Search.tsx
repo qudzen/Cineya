@@ -1,15 +1,11 @@
 import {useEffect, useState} from "react";
 import {fetchSearch} from "../api.tsx";
 import type {Result} from "./Home/Home.tsx";
-import { useNavigate } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
-
-
+import {useNavigate} from 'react-router-dom'
 
 
 export default function Search() {
     const navigate = useNavigate()
-    const location = useLocation()
     const [search, setSearch] = useState<string>('');
     const [resultSearch, setResultSearch] = useState<Result | null>(null);
     const [hints, setHints] = useState<Result[]>([]);
@@ -25,7 +21,7 @@ export default function Search() {
             return
         }
     }
-    useEffect( () => {
+    useEffect(() => {
         const resultFilm = async () => {
             if (!search.trim()) return;
             const data = await fetchSearch(search);
@@ -45,9 +41,8 @@ export default function Search() {
     }
 
 
-
     return (
-        <div>
+        <div className='relative'>
             <input
 
                 className='bg-white text-gray-700 border-gray-200 border-2 rounded-2xl px-6 py-3 w-80 transition-all h-10'
@@ -57,11 +52,13 @@ export default function Search() {
                 value={search}
                 onKeyDown={onEnter}
             />
-            {hints.map(i => (
-                <div onClick={() => (navigate(`/movie/${i.id}`))}>
-                    {i.title}
-                </div>
-            ))}
+            <div className='absolute top-full z-50 bg-whiteq'>
+                {hints.map(i => (
+                    <div onClick={() => (navigate(`/movie/${i.id}`))}>
+                        {i.title}
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }
