@@ -7,6 +7,9 @@ import MyList from "./Pages/MyList.tsx";
 import PageFilm from "./Pages/PageFilm.tsx";
 import Search from "./Pages/Search.tsx";
 
+
+
+
 function App() {
     const location = useLocation()
 

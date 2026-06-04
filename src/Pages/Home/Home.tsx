@@ -1,7 +1,9 @@
-import fetchPopularFilm, {fetchGenre} from '../../api.tsx'
+import useGenre from "../useGenre.tsx";
 import {useEffect, useState} from "react";
 import {Link} from 'react-router-dom'
 import SliderFilm from "./SliderFilm.tsx";
+import fetchPopularFilm from "../../api.tsx";
+import type {Genre} from "../useGenre.tsx";
 
 export interface Result {
     id: number
@@ -15,15 +17,12 @@ export interface Result {
 
 }
 
-interface Genre {
-    id: number,
-    name: string
-}
+
 
 export default function Home() {
     const [popularFilmResult, setPopularFilmResult] = useState<Result[]>([])
+    const {genre} = useGenre();
 
-    const [genre, setGenre] = useState<Genre[]>([])
 
     const shuffle = (array: Result[]) => {
         return [...array].sort(() => Math.random() - 0.5)
@@ -36,12 +35,9 @@ export default function Home() {
             setPopularFilmResult(shuffle(data.results))
             console.log(data)
         }
-        const genreFilm = async () => {
-            const dataGenre = await fetchGenre()
-            setGenre(dataGenre.genres)
-        }
+
         popularFilm()
-        genreFilm()
+
     }, [])
 
 
