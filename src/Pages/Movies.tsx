@@ -9,15 +9,26 @@ export default function Movies() {
     const {genre} = useGenre()
     const [selectedGenre, setSelectedGenre] = useState<number | null>(null)
     const [resultSearchByGenre, setResultSearchByGenre] = useState<Result[]>([])
+    const [page, setPage ] = useState<number>(1)
+
+    const nextPage = async (selectedGenre: number, page: number) => {
+        if (selectedGenre) {
+            const nextPageNumber = page + 1
+            setPage(nextPageNumber)
+            const data = await searchByGenre(selectedGenre, nextPageNumber)
+            setResultSearchByGenre(prev => [...prev, ...data.results])
+        }
+    }
 
     useEffect(() => {
         if (selectedGenre) {
-            const listOfFilms = async (selectedGenre: number) => {
-                const data = await searchByGenre(selectedGenre)
+            const listOfFilms = async (selectedGenre: number, page: number) => {
+                const data = await searchByGenre(selectedGenre, page)
                 setResultSearchByGenre(data.results)
                 console.log(data.results)
+                setPage(1)
             }
-            listOfFilms(selectedGenre)
+            listOfFilms(selectedGenre, page)
         }
     }, [selectedGenre])
     return (
@@ -48,6 +59,7 @@ export default function Movies() {
                     ))
                 )}
             </div>
+            <button onClick={() => nextPage(selectedGenre, page)}>Показать еще</button>
         </>
     )
 }
