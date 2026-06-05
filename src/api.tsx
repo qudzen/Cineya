@@ -25,3 +25,8 @@ export async function fetchSearch(searchText: string){
     const data = await responce.json()
     return data
 }
+export async function searchByGenre(genreId: number){
+    const responce = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=ru-RU&with_genres=${genreId}`)
+    const data = await responce.json()
+    return data
+}
