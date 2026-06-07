@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {fetchGenre} from "../api.tsx";
+import {fetchGenre} from "../../api.tsx";
 
 export interface Genre {
     id: number,

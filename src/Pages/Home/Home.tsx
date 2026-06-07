@@ -1,9 +1,9 @@
-import useGenre from "../useGenre.tsx";
+import useGenre from "../Hooks/useGenre.tsx";
 import {useEffect, useState} from "react";
 import {Link} from 'react-router-dom'
 import SliderFilm from "./SliderFilm.tsx";
 import fetchPopularFilm from "../../api.tsx";
-import type {Genre} from "../useGenre.tsx";
+import SetFilm from "../Components/SetFilm.tsx";
 
 export interface Result {
     id: number
@@ -56,14 +56,7 @@ export default function Home() {
                     <div className='flex gap-2 flex-wrap justify-center mt-7 mx-30'>
                         {otherFilms.map(film => (
                             <Link to={`/movie/${film.id}`}>
-                                <div className='w-60 mt-5 mb-5'>
-                                    <img className='' src={`https://image.tmdb.org/t/p/original${film.poster_path}`}
-                                         alt=""/>
-                                    <div className='text-sm text-left mt-2 text-white'>{film.title}</div>
-                                    <div
-                                        className='text-sm text-white'>{genre.find((g: Genre) => g.id === film.genre_ids[0])?.name}</div>
-                                    <div className='text-sm text-left text-white'>{ film.vote_average > 1 ?  (Math.round(film.vote_average * 10) / 10) : 'Скоро'}</div>
-                                </div>
+                                <SetFilm genre={genre} film={film}/>
                             </Link>
                         ))}
                     </div>

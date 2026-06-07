@@ -1,9 +1,10 @@
-import useGenre from "./useGenre.tsx";
-import type {Genre} from "./useGenre.tsx";
+import useGenre from "../Hooks/useGenre.tsx";
 import {useEffect, useState} from "react";
-import {searchByGenre} from "../api.tsx";
-import type {Result} from "./Home/Home.tsx";
+import {searchByGenre} from "../../api.tsx";
+import type {Result} from "../Home/Home.tsx";
 import {Link} from 'react-router-dom'
+import SetFilm from "../Components/SetFilm.tsx";
+import SetGenre from "./SetGenre.tsx"
 
 export default function Movies() {
     const {genre} = useGenre()
@@ -33,33 +34,21 @@ export default function Movies() {
     }, [selectedGenre])
     return (
         <>
-            {
-                genre.map((g: Genre) => (
-                    <div key={g.id} onClick={() => {
-                        setSelectedGenre(g.id)
-                    }}>
-                        {g.name}
-                    </div>
-                ))
-            }
+            {setSelectedGenre && (
+                <SetGenre genre={genre} setSelectedGenre={setSelectedGenre}/>
+            )}
             <div className='flex gap-2 flex-wrap justify-center mt-7 mx-30'>
                 {resultSearchByGenre && (
                     resultSearchByGenre.map((film: Result) => (
                         <Link to={`/movie/${film.id}`}>
-                            <div className='w-60 mt-5 mb-5'>
-                                <img className='' src={`https://image.tmdb.org/t/p/original${film.poster_path}`}
-                                     alt=""/>
-                                <div className='text-sm text-left mt-2 '>{film.title}</div>
-                                <div
-                                    className='text-sm '>{genre.find((g: Genre) => g.id === film.genre_ids[0])?.name}</div>
-                                <div
-                                    className='text-sm text-left '>{film.vote_average > 1 ? (Math.round(film.vote_average * 10) / 10) : 'Скоро'}</div>
-                            </div>
+                            <SetFilm genre={genre} film={film}/>
                         </Link>
                     ))
                 )}
             </div>
-            <button onClick={() => nextPage(selectedGenre, page)}>Показать еще</button>
+            {selectedGenre && (
+                <button onClick={() => nextPage(selectedGenre, page)}>Показать еще</button>
+            )}
         </>
     )
 }

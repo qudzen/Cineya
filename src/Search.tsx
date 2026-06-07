@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from "react";
-import {fetchSearch} from "../api.tsx";
-import type {Result} from "./Home/Home.tsx";
+import {fetchSearch} from "./api.tsx";
+import type {Result} from "./Pages/Home/Home.tsx";
 import {useNavigate} from 'react-router-dom'
 
 
