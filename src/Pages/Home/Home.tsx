@@ -1,4 +1,3 @@
-import useGenre from "../Hooks/useGenre.tsx";
 import {useEffect, useState} from "react";
 import {Link} from 'react-router-dom'
 import SliderFilm from "./SliderFilm.tsx";
@@ -21,7 +20,6 @@ export interface Result {
 
 export default function Home() {
     const [popularFilmResult, setPopularFilmResult] = useState<Result[]>([])
-    const {genre} = useGenre();
 
 
     const shuffle = (array: Result[]) => {
@@ -56,7 +54,7 @@ export default function Home() {
                     <div className='flex gap-2 flex-wrap justify-center mt-7 mx-30'>
                         {otherFilms.map(film => (
                             <Link to={`/movie/${film.id}`}>
-                                <SetFilm genre={genre} film={film}/>
+                                <SetFilm film={film}/>
                             </Link>
                         ))}
                     </div>

@@ -15,7 +15,7 @@ export async function fetchGenre(){
     return data
 }
 
-export async function fetchMovie(id: string){
+export async function fetchMovie(id: number | string){
     const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=ru-RU`)
     const data = await response.json()
     return data

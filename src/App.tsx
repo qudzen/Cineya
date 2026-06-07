@@ -14,7 +14,7 @@ function App() {
     const location = useLocation()
 
     return (
-        <div className="bg-white text-black">
+        <div className="bg-black text-white">
             <header className="flex flex-row">
                 <img src={logo} alt='логотип сайта' className='lg:w-15'/>
                 <NavLink to="/">Главная</NavLink>

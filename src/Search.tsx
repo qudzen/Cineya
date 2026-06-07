@@ -63,7 +63,7 @@ export default function Search() {
                 value={search}
                 onKeyDown={onEnter}
             />
-            <div ref={hintsRef} className='absolute top-full z-50 bg-white w-full '>
+            <div ref={hintsRef} className='absolute top-full z-50 bg-black text-white w-full '>
                 {hints.map(i => (
                     <div onClick={() => (navigate(`/movie/${i.id}`))}>
                         {i.title}

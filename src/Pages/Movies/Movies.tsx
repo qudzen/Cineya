@@ -41,7 +41,7 @@ export default function Movies() {
                 {resultSearchByGenre && (
                     resultSearchByGenre.map((film: Result) => (
                         <Link to={`/movie/${film.id}`}>
-                            <SetFilm genre={genre} film={film}/>
+                            <SetFilm film={film}/>
                         </Link>
                     ))
                 )}
