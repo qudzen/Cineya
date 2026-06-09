@@ -6,15 +6,13 @@ import {Link} from "react-router-dom";
 import type {Result} from "./Home/Home.tsx";
 
 
-
-
 export default function MyList() {
     const {likeList} = useLike();
     const [movies, setMovies] = useState<Result[]>([]);
 
     useEffect(() => {
         if (likeList.length === 0) return
-        const  getMovie = async () => {
+        const getMovie = async () => {
             const data = await Promise.all(likeList.map(id => fetchMovie(id)))
             setMovies(data)
         }
@@ -24,13 +22,15 @@ export default function MyList() {
 
     return (
         <div>
-            {movies && (
-                movies.map((film) => (
-                    <Link to={`/movie/${film.id}`}>
-                        <SetFilm film={film}/>
-                    </Link>
-                ))
-            )}
+            <div className='flex gap-2 flex-wrap justify-center mt-7 mx-30'>
+                {movies && (
+                    movies.map((film) => (
+                        <Link to={`/movie/${film.id}`}>
+                            <SetFilm film={film}/>
+                        </Link>
+                    ))
+                )}
+            </div>
         </div>
     )
 }
