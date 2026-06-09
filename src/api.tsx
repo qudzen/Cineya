@@ -30,8 +30,8 @@ export async function searchByGenre(genreId: number, page: number){
     const data = await responce.json()
     return data
 }
-export async function fetchNewFilm() {
-    const responce = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=ru-RU`)
+export async function fetchNewFilm(page: number) {
+    const responce = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=ru-RU&page=${page}`)
     const data = await responce.json()
     return data
 }
