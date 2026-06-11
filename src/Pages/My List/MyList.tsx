@@ -1,9 +1,9 @@
-import useLike from "./Hooks/useLike.tsx";
+import useLike from "../Hooks/useLike.tsx";
 import {useEffect, useState} from "react";
-import {fetchMovie} from "../api.tsx";
-import SetFilm from "./Components/SetFilm.tsx";
+import {fetchMovie} from "../../api.tsx";
+import SetFilm from "../Components/SetFilm.tsx";
 import {Link} from "react-router-dom";
-import type {Result} from "./Home/Home.tsx";
+import type {Result} from "../../type.tsx";
 
 
 export default function MyList() {

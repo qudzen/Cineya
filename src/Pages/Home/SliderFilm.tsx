@@ -1,7 +1,7 @@
 import {FaChevronLeft, FaChevronRight} from "react-icons/fa";
 import {Link} from "react-router-dom";
 import {useState} from "react";
-import type {Result} from "./Home.tsx";
+import type {Result} from "../../type.tsx";
 
 interface Props {
     sliderFilms: Result[]

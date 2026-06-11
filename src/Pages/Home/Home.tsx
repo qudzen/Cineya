@@ -3,19 +3,7 @@ import {Link} from 'react-router-dom'
 import SliderFilm from "./SliderFilm.tsx";
 import fetchPopularFilm from "../../api.tsx";
 import SetFilm from "../Components/SetFilm.tsx";
-
-export interface Result {
-    id: number
-    title: string
-    overview: string
-    release_date: string
-    vote_average: number
-    backdrop_path: string
-    poster_path: string
-    genre_ids: number[]
-
-}
-
+import type {Result} from "../../type.tsx";
 
 
 export default function Home() {

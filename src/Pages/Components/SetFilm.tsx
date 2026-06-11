@@ -1,4 +1,4 @@
-import type {Result} from "../Home/Home.tsx";
+import type {Result} from "../../type.tsx";
 
 interface Props {
     film: Result;

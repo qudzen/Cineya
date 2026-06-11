@@ -2,8 +2,8 @@ import logo from './assets/cineya.png';
 import {Routes, Route, NavLink, useLocation} from "react-router-dom";
 import Movies from "./Pages/Movies/Movies.tsx";
 import Home from "./Pages/Home/Home.tsx";
-import NewMovies from "./Pages/NewMovies.tsx";
-import MyList from "./Pages/MyList.tsx";
+import NewMovies from "./Pages/New Film/NewMovies.tsx";
+import MyList from "./Pages/My List/MyList.tsx";
 import PageFilm from "./Pages/Components/PageFilm.tsx";
 import Search from "./Search.tsx";
 

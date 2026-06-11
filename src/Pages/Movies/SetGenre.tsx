@@ -1,10 +1,10 @@
-import type {Genre} from "../Hooks/useGenre.tsx";
+import type {Genre} from "../../type.tsx";
 
 interface GenreProps {
     genre: Genre[],
     setSelectedGenre: (id: number) => void,
 }
-export default function setFilm({ genre, setSelectedGenre}: GenreProps) {
+export default function SetFilm({ genre, setSelectedGenre}: GenreProps) {
 
 
     return (

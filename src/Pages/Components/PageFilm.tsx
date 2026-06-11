@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import {useEffect, useState} from "react";
 import {fetchMovie} from "../../api.tsx";
-import type {Result} from "../Home/Home.tsx";
+import type {Result} from "../../type.tsx";
 import useLike from "../Hooks/useLike.tsx";
 
 export default function PageFilm() {

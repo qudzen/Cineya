@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
-import {fetchNewFilm} from "../api.tsx";
-import SetFilm from "./Components/SetFilm.tsx";
-import type {Result} from "./Home/Home.tsx";
+import {fetchNewFilm} from "../../api.tsx";
+import SetFilm from "../Components/SetFilm.tsx";
+import type {Result} from "../../type.tsx";
 import {Link} from "react-router-dom";
 
 export default function NewMovies() {
