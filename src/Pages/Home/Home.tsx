@@ -16,23 +16,23 @@ export default function Home() {
 
     useEffect(() => {
         const popularFilm = async () => {
-            const data = await fetchPopularFilm()
-            //const filtered = data.results.filter((film: Result) => /[а-яёА-ЯЁ]/.test(film.title))
-            setPopularFilmResult(shuffle(data.results))
-            console.log(data)
+            try {
+                const data = await fetchPopularFilm()
+                setPopularFilmResult(shuffle(data.results))
+                console.log(data)
+            }catch (err){
+                console.log(`Ошибка ${err}`)
+            }
         }
-
         popularFilm()
-
     }, [])
-
 
 
     const sliderFilms = popularFilmResult.slice(0, 5)
     const otherFilms = popularFilmResult.slice(5)
 
     return (
-        <div className="bg-black">
+        <div>
             {sliderFilms.length > 0 && (
                 <SliderFilm sliderFilms={sliderFilms}/>
             )}
