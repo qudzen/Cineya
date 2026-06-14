@@ -14,13 +14,37 @@ function App() {
     const location = useLocation()
 
     return (
-        <div className="bg-black text-white">
-            <header className="flex flex-row">
-                <img src={logo} alt='логотип сайта' className='lg:w-15'/>
-                <NavLink to="/">Главная</NavLink>
-                <NavLink to="/movies">Фильмы</NavLink>
-                <NavLink to="/newMovies">Новинки</NavLink>
-                <NavLink to="/myList">Моё</NavLink>
+        <div className="text-white">
+            <header className="flex items-center justify-between px-8 py-4 bg-black/90 backdrop-blur-sm sticky top-0 z-50 border-b border-white/10">
+                <img src={logo} alt='логотип сайта' className='w-12'/>
+
+                <nav className="flex items-center gap-8">
+                    <NavLink
+                        to="/"
+                        className={({ isActive }) =>
+                            `text-sm font-semibold tracking-wider uppercase transition-colors ${isActive ? 'text-yellow-400' : 'text-white/70 hover:text-white'}`
+                        }
+                    >Главная</NavLink>
+                    <NavLink
+                        to="/movies"
+                        className={({ isActive }) =>
+                            `text-sm font-semibold tracking-wider uppercase transition-colors ${isActive ? 'text-yellow-400' : 'text-white/70 hover:text-white'}`
+                        }
+                    >Фильмы</NavLink>
+                    <NavLink
+                        to="/newMovies"
+                        className={({ isActive }) =>
+                            `text-sm font-semibold tracking-wider uppercase transition-colors ${isActive ? 'text-yellow-400' : 'text-white/70 hover:text-white'}`
+                        }
+                    >Новинки</NavLink>
+                    <NavLink
+                        to="/myList"
+                        className={({ isActive }) =>
+                            `text-sm font-semibold tracking-wider uppercase transition-colors ${isActive ? 'text-yellow-400' : 'text-white/70 hover:text-white'}`
+                        }
+                    >Моё</NavLink>
+                </nav>
+
                 <Search key={location.pathname}/>
             </header>
           <Routes>

@@ -1,16 +1,17 @@
 import useGenre from "../Hooks/useGenre.tsx";
 import {useEffect, useState} from "react";
-import {searchByGenre} from "../../api.tsx";
+import {fetchMovie, searchByGenre} from "../../api.tsx";
 import type {Result} from "../../type.tsx";
 import {Link} from 'react-router-dom'
 import SetFilm from "../Components/SetFilm.tsx";
 import SetGenre from "./SetGenre.tsx"
+import {useFetch} from "../Hooks/useFetch.tsx";
 
 export default function Movies() {
     const {genre} = useGenre()
     const [selectedGenre, setSelectedGenre] = useState<number | null>(null)
     const [resultSearchByGenre, setResultSearchByGenre] = useState<Result[]>([])
-    const [page, setPage ] = useState<number>(1)
+    const [page, setPage] = useState<number>(1)
 
     const nextPage = async (selectedGenre: number, page: number) => {
         if (selectedGenre) {

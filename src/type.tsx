@@ -7,6 +7,7 @@ export interface Result {
     backdrop_path: string
     poster_path: string
     genre_ids: number[]
+    results: []
 
 }
 export interface Genre {
