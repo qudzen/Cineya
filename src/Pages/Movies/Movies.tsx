@@ -1,11 +1,10 @@
 import useGenre from "../Hooks/useGenre.tsx";
 import {useEffect, useState} from "react";
-import {fetchMovie, searchByGenre} from "../../api.tsx";
+import {searchByGenre} from "../../api.tsx";
 import type {Result} from "../../type.tsx";
 import {Link} from 'react-router-dom'
 import SetFilm from "../Components/SetFilm.tsx";
 import SetGenre from "./SetGenre.tsx"
-import {useFetch} from "../Hooks/useFetch.tsx";
 
 export default function Movies() {
     const {genre} = useGenre()

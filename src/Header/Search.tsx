@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from "react";
-import {fetchSearch} from "./api.tsx";
-import type {Result} from "./type.tsx";
+import {fetchSearch} from "../api.tsx";
+import type {Result} from "../type.tsx";
 import {useNavigate} from 'react-router-dom'
 
 
@@ -55,21 +55,26 @@ export default function Search() {
     return (
         <div className='relative'>
             <input
-
-                className='bg-white text-gray-700 border-gray-200 border-2 rounded-2xl px-6 py-3 w-80 transition-all h-10'
+                className='bg-transparent border border-white/20 text-white text-sm font-light tracking-widest rounded-full px-5 py-2 w-64 placeholder:text-white/30 focus:outline-none focus:border-yellow-400 transition-colors'
                 type="search"
-                placeholder="Search"
+                placeholder="ПОИСК"
                 onChange={onSearch}
                 value={search}
                 onKeyDown={onEnter}
             />
-            <div ref={hintsRef} className='absolute top-full z-50 bg-black text-white w-full '>
-                {hints.map(i => (
-                    <div onClick={() => (navigate(`/movie/${i.id}`))}>
-                        {i.title}
-                    </div>
-                ))}
-            </div>
+            {hints.length > 0 && (
+                <div ref={hintsRef} className='absolute top-full mt-2 w-full bg-zinc-900 border border-white/10 rounded-xl overflow-hidden z-50'>
+                    {hints.map(i => (
+                        <div
+                            key={i.id}
+                            onClick={() => navigate(`/movie/${i.id}`)}
+                            className='px-5 py-3 text-sm font-light tracking-wider text-white/70 hover:bg-white/5 hover:text-yellow-400 cursor-pointer transition-colors'
+                        >
+                            {i.title}
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }

@@ -56,3 +56,6 @@ html, body {
     scrollbar-width: thin;
     scrollbar-color: #333 black;
 }
+input[type="search"]::-webkit-search-cancel-button {
+    display: none;
+}
