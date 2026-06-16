@@ -32,5 +32,9 @@
 
 | **TMDB API** | Источник данных о фильмах |
 
-
+## 📸 Скриншоты
+![img.png](src/assets/img.png)
+![img_1.png](src/assets/img_1.png)
+![img_2.png](src/assets/img_2.png)
+![img_3.png](src/assets/img_3.png)
 ---
