@@ -27,8 +27,8 @@ export default function Home() {
             )}
             {shuffled.length > 0 && (
                 <div className='mt-12'>
-                    <h1 className='font-bold text-3xl ml-7 text-white'>Популярные фильмы</h1>
-                    <div className='flex gap-2 flex-wrap justify-center mt-7 mx-30'>
+                    <h1 className='font-bold text-xl md:text-5xl text-white md:mx-57 px-2'>Популярные фильмы</h1>
+                    <div className='flex gap-2 flex-wrap justify-center mt-7 md:mx-3 lg:mx-30'>
                         {otherFilms.map(film => (
                             <Link key={film.id} to={`/movie/${film.id}`}>
                                 <SetFilm film={film}/>

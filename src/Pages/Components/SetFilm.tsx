@@ -6,7 +6,7 @@ interface Props {
 
 export default function SetFilm({film}: Props) {
     return (
-        <div className='w-60 mt-5 mb-5'>
+        <div className='w-28 md:w-60 mt-5 mb-5'>
             <img className='' src={`https://image.tmdb.org/t/p/original${film.poster_path}`}
                  alt=""/>
             <div className='text-sm text-left mt-2 text-white'>{film.title}</div>

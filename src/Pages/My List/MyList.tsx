@@ -13,8 +13,12 @@ export default function MyList() {
     useEffect(() => {
         if (likeList.length === 0) return
         const getMovie = async () => {
-            const data = await Promise.all(likeList.map(id => fetchMovie(id)))
-            setMovies(data)
+            try {
+                const data = await Promise.all(likeList.map(id => fetchMovie(id)))
+                setMovies(data)
+            }catch(err) {
+                console.log(`Ошибка ${err}`)
+            }
         }
         getMovie()
     }, [])

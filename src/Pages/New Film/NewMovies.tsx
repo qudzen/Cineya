@@ -12,13 +12,21 @@ export default function NewMovies() {
         const nextPageNumber = page + 1
         setPage(nextPageNumber)
         const data = await fetchNewFilm(nextPageNumber)
-        setNewFilm(prev => [...prev, ...data.results])
+        try {
+            setNewFilm(prev => [...prev, ...data.results])
+        }catch(err) {
+            console.log(`Ошибка ${err}`)
+        }
     }
 
     useEffect(() => {
         const nowPlayingFilm = async () => {
-            const data = await fetchNewFilm(page)
-            setNewFilm(data.results)
+            try {
+                const data = await fetchNewFilm(page)
+                setNewFilm(data.results)
+            }catch (err){
+                console.log(`Ошибка ${err}`)
+            }
         }
         nowPlayingFilm()
     }, [])
