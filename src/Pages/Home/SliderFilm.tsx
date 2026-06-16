@@ -38,7 +38,7 @@ export default function SliderFilm({sliderFilms}: Props) {
     }
     return (
         <div
-            className='grid grid-cols-[20px_auto_20px]  lg:grid-cols-[70px_1fr_2fr_33px] h-[500px] h-[calc(100vh-60px)] bg-black overflow-hidden relative'>
+            className='lg:grid lg:grid-cols-[70px_1fr_2fr_33px] lg:h-[calc(100vh-60px)] bg-black overflow-hidden lg:relative'>
 
             {/* ФОНОВАЯ КАРТИНКА */}
             {isMobile ? (

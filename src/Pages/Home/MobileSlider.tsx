@@ -1,5 +1,5 @@
 import type {Result} from "../../type.tsx";
-import {FaChevronLeft, FaChevronRight} from "react-icons/fa";
+import {FaChevronLeft, FaChevronRight, FaStar} from "react-icons/fa";
 import {Link} from "react-router-dom";
 
 interface sliderProps {
@@ -11,37 +11,54 @@ interface sliderProps {
 }
 
 export default function MobileSlider({direction, indexSlider, sliderFilms, prevFilm, nextFilm}: sliderProps) {
-    return (
-        <>
-            <img key={indexSlider}
-                 src={`https://image.tmdb.org/t/p/original${sliderFilms[indexSlider].poster_path}`} alt=""
-                 className={`absolute ${direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'}`}
-            />
-            <div className='absolute inset-0 z-10' style={{
-                background: 'linear-gradient(to top, black 30%, transparent 80%)'
-            }}/>
-            <button onClick={prevFilm} className='z-20 text-white hover:text-yellow-400 transition'>
-                <FaChevronLeft size={30}/>
-            </button>
+    const film = sliderFilms[indexSlider]
 
-            <div
-                 className={`relative z-20 flex flex-col justify-end gap-4 px-10 text-white ${
-                     direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'
-                 }`}>
-                <p className='text-yellow-400 uppercase tracking-[4px]'>Trending Now</p>
-                <Link to={`/movie/${sliderFilms[indexSlider].id}`}><h1
-                    className='text-2xl font-bold'>{sliderFilms[indexSlider].title}</h1></Link>
-                <div className='flex gap-5 text-zinc-400'>
-                    <span>⭐ {sliderFilms[indexSlider].vote_average}</span>
-                    <span>{sliderFilms[indexSlider].release_date}</span>
-                </div>
+    return (
+        <div className='relative w-full col-span-3 bg-black'>
+            <div className='relative aspect-[16/10] w-full overflow-hidden'>
+                <img
+                    key={indexSlider}
+                    src={`https://image.tmdb.org/t/p/w500${film.backdrop_path}`}
+                    alt=""
+                    className={`absolute inset-0 h-full w-full object-cover ${direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'}`}
+                />
+
+                <div className='absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent'/>
+
+                <button onClick={prevFilm} className='absolute left-3 top-1/2 z-20 -translate-y-1/2 text-white/50 transition hover:text-yellow-400'>
+                    <FaChevronLeft size={20}/>
+                </button>
+                <button onClick={nextFilm} className='absolute right-3 top-1/2 z-20 -translate-y-1/2 text-white/50 transition hover:text-yellow-400'>
+                    <FaChevronRight size={20}/>
+                </button>
             </div>
 
+            <div
+                key={`info-${indexSlider}`}
+                className={`relative z-20 flex flex-row items-center gap-3 px-4 -mt-[calc(6.5rem*3/4)] pb-4 ${direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'}`}
+            >
+                <Link to={`/movie/${film.id}`} className='flex-shrink-0'>
+                    <img
+                        src={`https://image.tmdb.org/t/p/w200${film.poster_path}`}
+                        alt=""
+                        className='w-26 aspect-[2/3] rounded-lg object-cover shadow-lg'
+                    />
+                </Link>
 
-
-            <button onClick={nextFilm} className='z-20 text-white hover:text-yellow-400 transition'>
-                <FaChevronRight size={30}/>
-            </button>
-        </>
+                <div className='flex min-w-0 flex-col gap-1'>
+                    <p className='text-[10px] uppercase tracking-widest text-yellow-400'>Trending Now</p>
+                    <Link to={`/movie/${film.id}`}>
+                        <h1 className='line-clamp-1 text-base font-bold text-white'>{film.title}</h1>
+                    </Link>
+                    <div className='flex items-center gap-3 text-xs text-zinc-400'>
+                        <span className='flex items-center gap-1'>
+                            <FaStar size={10} className='text-yellow-400'/>
+                            {film.vote_average > 0 ? Math.round(film.vote_average * 10) / 10 : 'Скоро'}
+                        </span>
+                        <span>{film.release_date?.slice(0, 4)}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     )
 }
