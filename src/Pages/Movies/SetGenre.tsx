@@ -5,18 +5,41 @@ interface GenreProps {
     setSelectedGenre: (id: number) => void,
     selectedGenre: number,
 }
-export default function SetFilm({ genre, setSelectedGenre, selectedGenre}: GenreProps) {
 
-
+export default function SetGenre({genre, setSelectedGenre, selectedGenre}: GenreProps) {
     return (
-        <div className="flex flex-col">
-            {genre.map((g: Genre) => (
-                <div key={g.id} onClick={() => {
-                    setSelectedGenre(g.id)
-                }} className={`text-sm font-light tracking-widest uppercase transition-colors cursor-pointer mb-4 ml-3 ${selectedGenre === g.id ? 'text-yellow-400' : 'text-white/50 hover:text-white'}`}>
-                    {g.name}
-                </div>
-            ))}
-        </div>
+        <>
+            <div className="flex gap-2 overflow-x-auto px-4 pb-1 lg:hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                {genre.map((g: Genre) => (
+                    <button
+                        key={g.id}
+                        type="button"
+                        onClick={() => setSelectedGenre(g.id)}
+                        className={`shrink-0 rounded-full border px-4 py-1.5 text-xs font-light uppercase tracking-widest transition-colors ${
+                            selectedGenre === g.id
+                                ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
+                                : 'border-white/20 text-white/50 hover:border-white/40 hover:text-white'
+                        }`}
+                    >
+                        {g.name}
+                    </button>
+                ))}
+            </div>
+
+            <nav className="hidden lg:flex flex-col">
+                {genre.map((g: Genre) => (
+                    <button
+                        key={g.id}
+                        type="button"
+                        onClick={() => setSelectedGenre(g.id)}
+                        className={`mb-4 cursor-pointer text-left text-sm font-light uppercase tracking-widest transition-colors ${
+                            selectedGenre === g.id ? 'text-yellow-400' : 'text-white/50 hover:text-white'
+                        }`}
+                    >
+                        {g.name}
+                    </button>
+                ))}
+            </nav>
+        </>
     )
 }
