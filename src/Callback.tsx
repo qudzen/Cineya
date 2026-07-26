@@ -2,34 +2,16 @@ import { useEffect } from 'react'
 
 export default function Callback() {
     useEffect(() => {
-        const code = new URLSearchParams(window.location.search).get('code')
-        if (!code) {
+        const params = new URLSearchParams(window.location.search)
+        const code = params.get('code')
+
+        if (code) {
+            localStorage.setItem('yandex_auth_code', code)
+        }
+
+        setTimeout(() => {
             window.close()
-            return
-        }
-
-        const verifier = sessionStorage.getItem('code_verifier')
-        if (!verifier) {
-            window.close()
-            return
-        }
-
-        const auth = async () => {
-            try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/yandex-auth?code=${code}&code_verifier=${verifier}`)
-                const user = await response.json()
-
-                if (user && window.opener) {
-                    window.opener.postMessage({ user }, window.location.origin)
-                }
-            } catch (err) {
-                console.log(err)
-            } finally {
-                window.close()
-            }
-        }
-
-        auth()
+        }, 300)
     }, [])
 
     return (

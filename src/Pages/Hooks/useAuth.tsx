@@ -14,15 +14,39 @@ export function useAuth() {
     })
 
     useEffect(() => {
-        const handleMessage = (event: MessageEvent) => {
-            if (event.origin !== window.location.origin) return
-            if (event.data.user) {
-                setUser(event.data.user)
-                localStorage.setItem('user', JSON.stringify(event.data.user))
+        const handleStorage = async (event: StorageEvent) => {
+            if (event.key !== 'yandex_auth_code' || !event.newValue) return
+
+            const code = event.newValue
+            localStorage.removeItem('yandex_auth_code')
+
+            const verifier = sessionStorage.getItem('code_verifier')
+            sessionStorage.removeItem('code_verifier')
+
+            try {
+                const response = await fetch(
+                    `${import.meta.env.VITE_API_URL}/api/yandex-auth?code=${code}&code_verifier=${verifier}`,
+                )
+
+                if (!response.ok) {
+                    const errText = await response.text()
+                    console.error('Ошибка API авторизации:', response.status, errText)
+                    return
+                }
+
+                const userData = await response.json()
+
+                if (userData && userData.id) {
+                    setUser(userData)
+                    localStorage.setItem('user', JSON.stringify(userData))
+                }
+            } catch (err) {
+                console.error('Ошибка обмена кода на токен:', err)
             }
         }
-        window.addEventListener('message', handleMessage)
-        return () => window.removeEventListener('message', handleMessage)
+
+        window.addEventListener('storage', handleStorage)
+        return () => window.removeEventListener('storage', handleStorage)
     }, [])
 
     const logout = () => {

@@ -46,8 +46,10 @@ export default function Header() {
         </nav>
       </div>
 
-      <Search key={location.pathname} />
-      <Login />
+      <div className="flex items-center gap-4">
+        <Search key={location.pathname} />
+        <Login />
+      </div>
     </header>
   );
 }

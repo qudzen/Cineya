@@ -1,5 +1,7 @@
 import { useAuth } from "../Pages/Hooks/useAuth";
 import { loginWithYandex } from "../YandexLogin";
+import { FaUser } from "react-icons/fa";
+
 export default function AuthButton() {
   const { user, logout } = useAuth();
 
@@ -19,9 +21,9 @@ export default function AuthButton() {
       ) : (
         <button
           onClick={loginWithYandex}
-          className="text-sm font-light tracking-widest uppercase text-white/50 hover:text-yellow-400 transition-colors"
+          className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center text-white/40 hover:border-yellow-400 hover:text-yellow-400 transition-colors cursor-pointer"
         >
-          Войти
+          <FaUser size={16} />
         </button>
       )}
     </>

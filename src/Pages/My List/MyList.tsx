@@ -1,13 +1,15 @@
 import useLike from "../Hooks/useLike.tsx";
-import {useEffect, useState} from "react";
-import {fetchMovie} from "../../api.tsx";
+import { useAuth } from "../Hooks/useAuth.tsx";
+import { useEffect, useState } from "react";
+import { fetchMovie } from "../../api.tsx";
 import FilmGrid from "../Components/FilmGrid.tsx";
-import {Link} from "react-router-dom";
-import type {Result} from "../../type.tsx";
-import {FaHeart} from "react-icons/fa";
+import { Link } from "react-router-dom";
+import type { Result } from "../../type.tsx";
+import { FaHeart } from "react-icons/fa";
 
 export default function MyList() {
-    const {likeList} = useLike();
+    const { likeList } = useLike();
+    const { user } = useAuth();
     const [movies, setMovies] = useState<Result[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -54,14 +56,23 @@ export default function MyList() {
                             Список пуст
                         </p>
                         <p className="max-w-xs text-sm text-white/30">
-                            Добавляйте фильмы в избранное на странице фильма — они появятся здесь
+                            {user
+                                ? 'Добавляйте фильмы в избранное на странице фильма — они появятся здесь'
+                                : 'Войдите в аккаунт, чтобы добавлять фильмы в избранное'
+                            }
                         </p>
-                        <Link
-                            to="/movies"
-                            className="mt-2 rounded-full border border-white/20 px-6 py-2.5 text-xs font-light uppercase tracking-widest transition-colors hover:border-yellow-400 hover:text-yellow-400"
-                        >
-                            Перейти к фильмам
-                        </Link>
+                        {user ? (
+                            <Link
+                                to="/movies"
+                                className="mt-2 rounded-full border border-white/20 px-6 py-2.5 text-xs font-light uppercase tracking-widest transition-colors hover:border-yellow-400 hover:text-yellow-400"
+                            >
+                                Перейти к фильмам
+                            </Link>
+                        ) : (
+                            <p className="mt-2 rounded-full border border-yellow-400/40 px-6 py-2.5 text-xs font-light uppercase tracking-widest text-yellow-400">
+                                Нажмите на аватар вверху, чтобы войти
+                            </p>
+                        )}
                     </div>
                 )}
 
