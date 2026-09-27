@@ -14,22 +14,28 @@ export default function Search() {
     const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchText = e.target.value
         setSearch(searchText)
-        console.log(searchText);
         if (searchText.trim() === '') {
             setResultSearch(null)
             setHints([])
-            navigate(`/`)
-            return
         }
     }
     useEffect(() => {
+        if (!search.trim()) {
+            setResultSearch(null)
+            setHints([])
+            return
+        }
+        let cancelled = false
         const resultFilm = async () => {
-            if (!search.trim()) return;
             const data = await fetchSearch(search);
+            if (cancelled) return
             setResultSearch(data.results[0])
             setHints(data.results.slice(0, 5))
         }
         resultFilm()
+        return () => {
+            cancelled = true
+        }
     }, [search])
 
     const onEnter = async (e: React.KeyboardEvent<HTMLInputElement>,) => {
