@@ -26,15 +26,15 @@ export default function Search() {
             return
         }
         let cancelled = false
-        const resultFilm = async () => {
+        const timer = setTimeout(async () => {
             const data = await fetchSearch(search);
             if (cancelled) return
             setResultSearch(data.results[0])
             setHints(data.results.slice(0, 5))
-        }
-        resultFilm()
+        }, 400)
         return () => {
             cancelled = true
+            clearTimeout(timer)
         }
     }, [search])
 

@@ -4,7 +4,7 @@ interface YandexUser {
     id: string
     login: string
     real_name: string
-    avatar_id: string
+    default_avatar_id: string
 }
 
 export function useAuth() {
