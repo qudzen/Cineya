@@ -7,21 +7,22 @@ import {useNavigate} from 'react-router-dom'
 export default function Search() {
     const navigate = useNavigate()
     const [search, setSearch] = useState<string>('');
-    const [resultSearch, setResultSearch] = useState<Result | null>(null);
+ //   const [resultSearch, setResultSearch] = useState<Result | null>(null);
     const [hints, setHints] = useState<Result[]>([]);
     const hintsRef = useRef<HTMLDivElement>(null);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchText = e.target.value
         setSearch(searchText)
         if (searchText.trim() === '') {
-            setResultSearch(null)
+//            setResultSearch(null)
             setHints([])
         }
     }
     useEffect(() => {
         if (!search.trim()) {
-            setResultSearch(null)
+//            setResultSearch(null)
             setHints([])
             return
         }
@@ -29,8 +30,9 @@ export default function Search() {
         const timer = setTimeout(async () => {
             const data = await fetchSearch(search);
             if (cancelled) return
-            setResultSearch(data.results[0])
+//            setResultSearch(data.results[0])
             setHints(data.results.slice(0, 5))
+            setCurrentIndex(0)
         }, 400)
         return () => {
             cancelled = true
@@ -38,14 +40,14 @@ export default function Search() {
         }
     }, [search])
 
-    const onEnter = async (e: React.KeyboardEvent<HTMLInputElement>,) => {
-        if (e.key === "Enter") {
-            if (resultSearch) {
-                setHints([])
-                navigate(`/movie/${resultSearch.id}`)
-            }
-        }
-    }
+    // const onEnter = async (e: React.KeyboardEvent<HTMLInputElement>,) => {
+    //     if (e.key === "Enter") {
+    //         if (hints[currentIndex]) {
+    //             setHints([])
+    //             navigate(`/movie/${hints[currentIndex].id}`)
+    //         }
+    //     }
+    // }
 
     useEffect(() => {
         const handleClickOutside  = (e: MouseEvent) => {
@@ -57,6 +59,23 @@ export default function Search() {
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, []);
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            if (hints[currentIndex]) {
+                setHints([])
+                navigate(`/movie/${hints[currentIndex].id}`)
+            }
+        }else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+            if (hints.length === 0) return
+            e.preventDefault()
+            const direction = e.key === "ArrowDown" ? 1 : -1
+            const indexItem = (currentIndex + direction + hints.length) % hints.length
+            setCurrentIndex(indexItem)
+        }
+
+    }
+
+
 
     return (
         <div className='relative'>
@@ -66,15 +85,16 @@ export default function Search() {
                 placeholder="ПОИСК"
                 onChange={onSearch}
                 value={search}
-                onKeyDown={onEnter}
+                onKeyDown={handleKeyDown}
             />
             {hints.length > 0 && (
                 <div ref={hintsRef} className='absolute top-full mt-2 w-full bg-zinc-900 border border-white/10 rounded-xl overflow-hidden z-50'>
-                    {hints.map(i => (
+                    {hints.map((i, index) => (
                         <div
                             key={i.id}
                             onClick={() => navigate(`/movie/${i.id}`)}
-                            className='px-5 py-3 text-sm font-light tracking-wider text-white/70 hover:bg-white/5 hover:text-yellow-400 cursor-pointer transition-colors'
+                            onMouseEnter={() => setCurrentIndex(index)}
+                            className={`px-5 py-3 text-sm font-light tracking-wider text-white/70 cursor-pointer transition-colors ${index === currentIndex ? 'text-yellow-400 bg-white/5' : 'hover:bg-white/3 hover:text-yellow-400'}`}
                         >
                             {i.title}
                         </div>
