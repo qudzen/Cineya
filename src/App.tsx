@@ -6,7 +6,7 @@ import MyList from "./Pages/My List/MyList.tsx";
 import PageFilm from "./Pages/Components/PageFilm.tsx";
 import HeaderMobile from "./Header/HeaderMobile.tsx";
 import Header from "./Header/Header.tsx";
-import Callback from "./Callback.tsx";
+import Callback from "./Auth/Callback.tsx";
 
 
 

@@ -9,7 +9,7 @@ export default function PageFilm() {
     const {data, error, loading} = useFetch(() => {
         if (!id) return Promise.reject(new Error('id not found'))
         return fetchMovie(id)
-    })
+    }, [id])
     const {toggleLike, likeList} = useLike();
 
     if (error) return <div>Не удалось загрузить фильмы</div>

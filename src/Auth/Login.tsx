@@ -1,5 +1,5 @@
-import { useAuth } from "../Pages/Hooks/useAuth";
-import { loginWithYandex } from "../YandexLogin";
+import { useAuth } from "./useAuth.tsx";
+import { loginWithYandex } from "./YandexLogin.ts";
 import { FaUser } from "react-icons/fa";
 
 export default function AuthButton() {

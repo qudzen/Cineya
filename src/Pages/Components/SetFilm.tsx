@@ -1,4 +1,4 @@
-import type {Result} from "../../type.tsx";
+import type {Result} from "../../type.ts";
 import {FaStar} from "react-icons/fa";
 
 interface Props {

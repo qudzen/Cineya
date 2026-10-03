@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import type {Result} from "../../type.tsx";
+import type {Result} from "../../type.ts";
 import DesktopSlider from "./DesktopSlider.tsx";
 import MobileSlider from "./MobileSlider";
 

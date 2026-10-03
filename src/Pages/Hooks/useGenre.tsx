@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {fetchGenre} from "../../api.tsx";
-import type {Genre} from "../../type.tsx";
+import type {Genre} from "../../type.ts";
 
 export default function useGenre() {
     const [genre, setGenre] = useState<Genre[]>([])

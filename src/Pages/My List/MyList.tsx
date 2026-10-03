@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {fetchMovie} from "../../api.tsx";
 import FilmGrid from "../Components/FilmGrid.tsx";
 import {Link} from "react-router-dom";
-import type {Result} from "../../type.tsx";
+import type {Result} from "../../type.ts";
 import {FaHeart} from "react-icons/fa";
 
 export default function MyList() {

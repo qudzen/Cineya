@@ -1,7 +1,7 @@
 import logo from "../assets/cineya.png";
 import { NavLink, useLocation } from "react-router-dom";
 import Search from "./Search.tsx";
-import Login from "./Login";
+import Login from "../Auth/Login.tsx";
 
 export default function Header() {
   const location = useLocation();

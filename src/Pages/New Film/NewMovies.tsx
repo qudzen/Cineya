@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {fetchNewFilm} from "../../api.tsx";
 import FilmGrid from "../Components/FilmGrid.tsx";
-import type {Result} from "../../type.tsx";
+import type {Result} from "../../type.ts";
 
 export default function NewMovies() {
     const [newFilm, setNewFilm] = useState<Result[]>([])

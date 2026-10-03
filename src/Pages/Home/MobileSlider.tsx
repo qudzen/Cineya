@@ -1,4 +1,4 @@
-import type {Result} from "../../type.tsx";
+import type {Result} from "../../type.ts";
 import {FaChevronLeft, FaChevronRight, FaStar} from "react-icons/fa";
 import {Link} from "react-router-dom";
 

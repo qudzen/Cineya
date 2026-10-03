@@ -1,4 +1,4 @@
-import type {Genre} from "../../type.tsx";
+import type {Genre} from "../../type.ts";
 
 interface GenreProps {
     genre: Genre[],

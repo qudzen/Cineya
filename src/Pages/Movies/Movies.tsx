@@ -1,7 +1,7 @@
 import useGenre from "../Hooks/useGenre.tsx";
 import {useEffect, useState} from "react";
 import {searchByGenre} from "../../api.tsx";
-import type {Result} from "../../type.tsx";
+import type {Result} from "../../type.ts";
 import FilmGrid from "../Components/FilmGrid.tsx";
 import SetGenre from "./SetGenre.tsx"
 

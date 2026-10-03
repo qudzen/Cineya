@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import type {Result} from "../../type.tsx";
+import type {Result} from "../../type.ts";
 import SetFilm from "./SetFilm.tsx";
 
 const ITEM_WIDTH =
