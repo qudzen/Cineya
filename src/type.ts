@@ -17,3 +17,10 @@ export interface Genre {
     id: number,
     name: string
 }
+
+export interface GenreFilmsResponse {
+    page: number
+    results: Result[]
+    total_pages: number
+    total_results: number
+}

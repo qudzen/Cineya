@@ -1,18 +1,15 @@
-import {useEffect, useState} from "react";
+import {useQuery} from "@tanstack/react-query";
 import {fetchGenre} from "../../api.tsx";
-import type {Genre} from "../../type.ts";
 
 export default function useGenre() {
-    const [genre, setGenre] = useState<Genre[]>([])
+    const {data, isError, isLoading} = useQuery({
+        queryKey: ['genre'],
+        queryFn: fetchGenre,
+    })
 
-    useEffect(() => {
-        const genreFilm = async () => {
-            const dataGenre = await fetchGenre()
-            setGenre(dataGenre.genres)
-        }
-        genreFilm()
-    }, [])
     return {
-        genre
+        data,
+        isError,
+        isLoading,
     }
 }

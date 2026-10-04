@@ -1,34 +1,27 @@
-import {useEffect, useState} from "react";
 import {fetchNewFilm} from "../../api.tsx";
 import FilmGrid from "../Components/FilmGrid.tsx";
-import type {Result} from "../../type.ts";
+import {useInfiniteQuery} from "@tanstack/react-query";
 
 export default function NewMovies() {
-    const [newFilm, setNewFilm] = useState<Result[]>([])
-    const [page, setPage] = useState<number>(1)
+    const {
+        data,
+        isError,
+        isLoading,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+    } = useInfiniteQuery({
+        queryKey: ['newFilms'],
+        queryFn: ({pageParam}) => fetchNewFilm(pageParam),
+        initialPageParam: 1,
+        getNextPageParam: (lastPage) =>
+            lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+    })
 
-    const nextPage = async () => {
-        const nextPageNumber = page + 1
-        setPage(nextPageNumber)
-        const data = await fetchNewFilm(nextPageNumber)
-        try {
-            setNewFilm(prev => [...prev, ...data.results])
-        } catch (err) {
-            console.log(`Ошибка ${err}`)
-        }
-    }
+    const films = data?.pages.flatMap(p => p.results) ?? []
 
-    useEffect(() => {
-        const nowPlayingFilm = async () => {
-            try {
-                const data = await fetchNewFilm(page)
-                setNewFilm(data.results)
-            } catch (err) {
-                console.log(`Ошибка ${err}`)
-            }
-        }
-        nowPlayingFilm()
-    }, [])
+    if (isLoading) return <span className="loading loading-spinner loading-xl"></span>
+    if (isError) return <div>Не удалось загрузить фильмы.</div>
 
     return (
         <div className="pb-24 md:pb-10">
@@ -41,17 +34,18 @@ export default function NewMovies() {
                 </p>
 
                 <div className="mt-4 lg:mt-7">
-                    <FilmGrid films={newFilm}/>
+                    <FilmGrid films={films}/>
                 </div>
 
-                {newFilm.length > 0 && (
+                {hasNextPage && (
                     <div className="mt-8 flex justify-center pb-4">
                         <button
                             type="button"
-                            onClick={nextPage}
+                            onClick={() => fetchNextPage()}
+                            disabled={isFetchingNextPage}
                             className="rounded-full border border-white/20 px-8 py-3 text-sm font-light uppercase tracking-widest transition-colors hover:border-yellow-400 hover:text-yellow-400"
                         >
-                            Показать еще
+                            {isFetchingNextPage ? 'Загрузка...' : 'Показать еще'}
                         </button>
                     </div>
                 )}

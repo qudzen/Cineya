@@ -1,4 +1,7 @@
+import type {GenreFilmsResponse} from "./type.ts";
+
 const BASE_URL = import.meta.env.VITE_API_URL || ''
+
 
 export default async function fetchPopularFilm() {
     const response = await fetch(`${BASE_URL}/api/popular`)
@@ -7,7 +10,8 @@ export default async function fetchPopularFilm() {
 
 export async function fetchGenre() {
     const response = await fetch(`${BASE_URL}/api/genre`)
-    return response.json()
+    const data =  response.json()
+    return data
 }
 
 export async function fetchMovie(id: number | string) {
@@ -20,12 +24,12 @@ export async function fetchSearch(searchText: string) {
     return response.json()
 }
 
-export async function searchByGenre(genreId: number, page: number) {
+export async function searchByGenre(genreId: number, page: number): Promise<GenreFilmsResponse> {
     const response = await fetch(`${BASE_URL}/api/genre-films?genreId=${genreId}&page=${page}`)
     return response.json()
 }
 
-export async function fetchNewFilm(page: number) {
+export async function fetchNewFilm(page: number): Promise<GenreFilmsResponse> {
     const response = await fetch(`${BASE_URL}/api/new-films?page=${page}`)
     return response.json()
 }

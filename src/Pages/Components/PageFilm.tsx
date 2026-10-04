@@ -1,20 +1,24 @@
 import {useParams} from 'react-router-dom'
-import {fetchMovie} from "../../api.tsx";
 import useLike from "../Hooks/useLike.tsx";
-import {useFetch} from "../Hooks/useFetch.tsx";
 import {FaStar, FaCalendar, FaClock, FaHeart} from 'react-icons/fa'
+import {useQuery} from "@tanstack/react-query";
+import {fetchMovie} from "../../api.tsx";
 
 export default function PageFilm() {
     const {id} = useParams()
-    const {data, error, loading} = useFetch(() => {
-        if (!id) return Promise.reject(new Error('id not found'))
-        return fetchMovie(id)
-    }, [id])
+
+
+    const {data, isError, isLoading} = useQuery({
+        queryKey: ['PageFilm', id],
+        queryFn: () => fetchMovie(id ?? ''),
+    })
+
+
     const {toggleLike, likeList} = useLike();
 
-    if (error) return <div>Не удалось загрузить фильмы</div>
+    if (isError) return <div>Не удалось загрузить фильмы</div>
     const isLiked = data ? likeList.includes(data.id) : false
-    if (loading) return <span className="loading loading-spinner loading-xl"></span>
+    if (isLoading) return <span className="loading loading-spinner loading-xl"></span>
 
     return (
         <>

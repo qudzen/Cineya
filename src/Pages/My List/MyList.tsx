@@ -1,35 +1,19 @@
 import useLike from "../Hooks/useLike.tsx";
-import {useEffect, useState} from "react";
 import {fetchMovie} from "../../api.tsx";
 import FilmGrid from "../Components/FilmGrid.tsx";
 import {Link} from "react-router-dom";
 import type {Result} from "../../type.ts";
 import {FaHeart} from "react-icons/fa";
+import {useQuery} from "@tanstack/react-query";
 
 export default function MyList() {
     const {likeList} = useLike();
-    const [movies, setMovies] = useState<Result[]>([]);
-    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        if (likeList.length === 0) {
-            setMovies([])
-            return
-        }
-
-        const getMovie = async () => {
-            setLoading(true)
-            try {
-                const data = await Promise.all(likeList.map(id => fetchMovie(id)))
-                setMovies(data)
-            } catch (err) {
-                console.log(`Ошибка ${err}`)
-            } finally {
-                setLoading(false)
-            }
-        }
-        getMovie()
-    }, [likeList])
+    const {data: movies = [], isLoading, isError} = useQuery<Result[]>({
+        queryKey: ['myList', likeList],
+        queryFn: () => Promise.all(likeList.map(id => fetchMovie(id))),
+        enabled: likeList.length > 0,
+    })
 
     return (
         <div className="pb-24 md:pb-10">
@@ -41,13 +25,21 @@ export default function MyList() {
                     Избранные фильмы
                 </p>
 
-                {loading && (
+                {isLoading && (
                     <div className="mt-12 flex justify-center">
                         <span className="loading loading-spinner loading-lg text-yellow-400"/>
                     </div>
                 )}
 
-                {!loading && movies.length === 0 && (
+                {isError && (
+                    <div className="mt-16 flex flex-col items-center gap-4 px-4 text-center">
+                        <p className="text-sm font-light tracking-widest text-white/40 uppercase">
+                            Не удалось загрузить список
+                        </p>
+                    </div>
+                )}
+
+                {!isLoading && movies.length === 0 && (
                     <div className="mt-16 flex flex-col items-center gap-4 px-4 text-center">
                         <FaHeart size={32} className="text-white/20"/>
                         <p className="text-sm font-light tracking-widest text-white/40 uppercase">
@@ -65,7 +57,7 @@ export default function MyList() {
                     </div>
                 )}
 
-                {!loading && movies.length > 0 && (
+                {!isLoading && movies.length > 0 && (
                     <div className="mt-4 lg:mt-7">
                         <FilmGrid films={movies}/>
                     </div>
