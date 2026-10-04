@@ -45,7 +45,7 @@ export default function NewMovies() {
                             disabled={isFetchingNextPage}
                             className="rounded-full border border-white/20 px-8 py-3 text-sm font-light uppercase tracking-widest transition-colors hover:border-yellow-400 hover:text-yellow-400"
                         >
-                            {isFetchingNextPage ? 'Загрузка...' : 'Показать еще'}
+                            {isFetchingNextPage ? 'Загрузка…' : 'Показать еще'}
                         </button>
                     </div>
                 )}

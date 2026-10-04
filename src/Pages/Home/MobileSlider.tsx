@@ -14,7 +14,7 @@ export default function MobileSlider({direction, indexSlider, sliderFilms, prevF
     const film = sliderFilms[indexSlider]
 
     return (
-        <div className='relative w-full col-span-3 bg-black'>
+        <div className='relative w-full col-span-3 bg-black lg:hidden'>
             <div className='relative aspect-[16/10] w-full overflow-hidden'>
                 <img
                     key={indexSlider}
@@ -25,11 +25,11 @@ export default function MobileSlider({direction, indexSlider, sliderFilms, prevF
 
                 <div className='absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent'/>
 
-                <button onClick={prevFilm} className='absolute left-3 top-1/2 z-20 -translate-y-1/2 text-white/50 transition hover:text-yellow-400'>
-                    <FaChevronLeft size={20}/>
+                <button onClick={prevFilm} aria-label="Предыдущий фильм" className='absolute left-3 top-1/2 z-20 -translate-y-1/2 text-white/50 transition-colors hover:text-yellow-400'>
+                    <FaChevronLeft size={20} aria-hidden="true"/>
                 </button>
-                <button onClick={nextFilm} className='absolute right-3 top-1/2 z-20 -translate-y-1/2 text-white/50 transition hover:text-yellow-400'>
-                    <FaChevronRight size={20}/>
+                <button onClick={nextFilm} aria-label="Следующий фильм" className='absolute right-3 top-1/2 z-20 -translate-y-1/2 text-white/50 transition-colors hover:text-yellow-400'>
+                    <FaChevronRight size={20} aria-hidden="true"/>
                 </button>
             </div>
 
@@ -40,7 +40,8 @@ export default function MobileSlider({direction, indexSlider, sliderFilms, prevF
                 <Link to={`/movie/${film.id}`} className='flex-shrink-0'>
                     <img
                         src={`https://image.tmdb.org/t/p/w200${film.poster_path}`}
-                        alt=""
+                        alt={film.title}
+                        loading="lazy"
                         className='w-26 aspect-[2/3] rounded-lg object-cover shadow-lg'
                     />
                 </Link>
@@ -55,7 +56,7 @@ export default function MobileSlider({direction, indexSlider, sliderFilms, prevF
                             <FaStar size={10} className='text-yellow-400'/>
                             {film.vote_average > 0 ? Math.round(film.vote_average * 10) / 10 : 'Скоро'}
                         </span>
-                        <span>{film.release_date?.slice(0, 4)}</span>
+                        {film.release_date && <span>{new Date(film.release_date).getFullYear()}</span>}
                     </div>
                 </div>
             </div>

@@ -20,13 +20,15 @@ export default function Trailer() {
     if (!trailer) return <div>Трейлер не найден</div>
 
     return (
-        <iframe
-            width="560"
-            height="315"
-            src={`https://www.youtube.com/embed/${trailer?.key}`}
-            title="Трейлер фильма"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-        />
+        <div className="relative w-full aspect-video md:w-[560px] md:h-[315px]">
+            <iframe
+                className="absolute inset-0 h-full w-full"
+                src={`https://www.youtube.com/embed/${trailer?.key}`}
+                title="Трейлер фильма"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                loading="lazy"
+            />
+        </div>
     )
 }

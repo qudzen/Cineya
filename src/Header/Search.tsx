@@ -69,24 +69,30 @@ export default function Search() {
     return (
         <div className='relative'>
             <input
-                className='bg-transparent border border-white/20 text-white text-sm font-light tracking-widest rounded-full px-5 py-2 w-54 placeholder:text-white/30 focus:outline-none focus:border-yellow-400 transition-colors'
+                className='bg-transparent border border-white/20 text-white text-sm font-light tracking-widest rounded-full px-5 py-2 w-36 md:w-54 placeholder:text-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:border-yellow-400 transition-colors'
                 type="search"
-                placeholder="ПОИСК"
+                placeholder="Поиск…"
+                aria-label="Поиск фильмов"
+                aria-expanded={isOpen}
+                aria-controls="search-hints"
+                autoComplete="off"
+                spellCheck={false}
                 onChange={onSearch}
                 value={search}
                 onKeyDown={handleKeyDown}
             />
             {isOpen && hints.length > 0 && (
-                <div ref={hintsRef} className='absolute top-full mt-2 w-full bg-zinc-900 border border-white/10 rounded-xl overflow-hidden z-50'>
+                <div ref={hintsRef} id="search-hints" className='absolute top-full mt-2 w-full bg-zinc-900 border border-white/10 rounded-xl overflow-hidden z-50'>
                     {hints.map((i, index) => (
-                        <div
+                        <button
                             key={i.id}
-                            onClick={() => navigate(`/movie/${i.id}`)}
+                            type="button"
+                            onClick={() => { setIsOpen(false); navigate(`/movie/${i.id}`) }}
                             onMouseEnter={() => setCurrentIndex(index)}
-                            className={`px-5 py-3 text-sm font-light tracking-wider text-white/70 cursor-pointer transition-colors ${index === currentIndex ? 'text-yellow-400 bg-white/5' : 'hover:bg-white/3 hover:text-yellow-400'}`}
+                            className={`w-full text-left px-5 py-3 text-sm font-light tracking-wider text-white/70 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 ${index === currentIndex ? 'text-yellow-400 bg-white/5' : 'hover:bg-white/3 hover:text-yellow-400'}`}
                         >
                             {i.title}
-                        </div>
+                        </button>
                     ))}
                 </div>
             )}

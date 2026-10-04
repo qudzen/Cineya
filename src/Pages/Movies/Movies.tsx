@@ -1,5 +1,6 @@
 import useGenre from "../Hooks/useGenre.tsx";
 import {useState} from "react";
+import {useSearchParams} from "react-router-dom";
 import {searchByGenre} from "../../api.tsx";
 import FilmGrid from "../Components/FilmGrid.tsx";
 import SetGenre from "./SetGenre.tsx"
@@ -7,7 +8,15 @@ import {useInfiniteQuery} from "@tanstack/react-query";
 
 export default function Movies() {
     const {data: genreData, isError: genreError, isLoading: genreLoading} = useGenre()
-    const [selectedGenre, setSelectedGenre] = useState<number | null>(28)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [selectedGenre, setSelectedGenre] = useState<number | null>(
+        searchParams.get('genre') ? Number(searchParams.get('genre')) : 28
+    )
+
+    const handleSelectGenre = (id: number) => {
+        setSelectedGenre(id)
+        setSearchParams({genre: String(id)})
+    }
 
     const {
         data,
@@ -37,7 +46,7 @@ export default function Movies() {
             <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-10 lg:px-12">
                 <aside className="hidden lg:block sticky top-24 self-start pt-8">
                     {selectedGenre && (
-                        <SetGenre genre={genreData?.genres ?? []} setSelectedGenre={setSelectedGenre} selectedGenre={selectedGenre}/>
+                        <SetGenre genre={genreData?.genres ?? []} setSelectedGenre={handleSelectGenre} selectedGenre={selectedGenre}/>
                     )}
                 </aside>
 
@@ -48,7 +57,7 @@ export default function Movies() {
 
                     {selectedGenre && (
                         <div className="sticky top-[60px] z-40 mt-4 border-b border-white/10 bg-black/95 py-3 backdrop-blur-sm lg:hidden">
-                            <SetGenre genre={genreData?.genres ?? []} setSelectedGenre={setSelectedGenre} selectedGenre={selectedGenre}/>
+                            <SetGenre genre={genreData?.genres ?? []} setSelectedGenre={handleSelectGenre} selectedGenre={selectedGenre}/>
                         </div>
                     )}
 
@@ -65,7 +74,7 @@ export default function Movies() {
                                     disabled={isFetchingNextPage}
                                     className="rounded-full border border-white/20 px-8 py-3 text-sm font-light uppercase tracking-widest transition-colors hover:border-yellow-400 hover:text-yellow-400"
                                 >
-                                    {isFetchingNextPage ? 'Загрузка...' : 'Показать еще'}
+                                    {isFetchingNextPage ? 'Загрузка…' : 'Показать еще'}
                                 </button>
                             )}
                         </div>

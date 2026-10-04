@@ -36,6 +36,8 @@ export default function SetFilm({film, variant = 'default'}: Props) {
                         className="aspect-[2/3] w-24 object-cover transition-transform duration-300 group-hover:scale-105 sm:w-28"
                         src={`https://image.tmdb.org/t/p/w342${film.poster_path}`}
                         alt={film.title}
+                        loading="lazy"
+                        decoding="async"
                     />
                     <span className={`absolute right-1.5 top-1.5 flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[10px] font-semibold ring-1 backdrop-blur-sm ${rating.badge}`}>
                         {film.vote_average > 1 && <FaStar size={8}/>}
@@ -60,6 +62,8 @@ export default function SetFilm({film, variant = 'default'}: Props) {
                     className="aspect-[2/3] w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     src={`https://image.tmdb.org/t/p/w342${film.poster_path}`}
                     alt={film.title}
+                    loading="lazy"
+                    decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100"/>
                 <span className={`absolute right-2 top-2 flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[11px] font-semibold ring-1 backdrop-blur-sm ${rating.badge}`}>

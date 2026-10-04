@@ -15,7 +15,7 @@ export default function SetGenre({genre, setSelectedGenre, selectedGenre}: Genre
                         key={g.id}
                         type="button"
                         onClick={() => setSelectedGenre(g.id)}
-                        className={`shrink-0 rounded-full border px-4 py-1.5 text-xs font-light uppercase tracking-widest transition-colors ${
+                        className={`shrink-0 rounded-full border px-4 py-1.5 text-xs font-light uppercase tracking-widest transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 ${
                             selectedGenre === g.id
                                 ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
                                 : 'border-white/20 text-white/50 hover:border-white/40 hover:text-white'
@@ -32,7 +32,7 @@ export default function SetGenre({genre, setSelectedGenre, selectedGenre}: Genre
                         key={g.id}
                         type="button"
                         onClick={() => setSelectedGenre(g.id)}
-                        className={`mb-4 cursor-pointer text-left text-sm font-light uppercase tracking-widest transition-colors ${
+                        className={`mb-4 text-left text-sm font-light uppercase tracking-widest transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 ${
                             selectedGenre === g.id ? 'text-yellow-400' : 'text-white/50 hover:text-white'
                         }`}
                     >
