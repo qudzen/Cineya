@@ -1,4 +1,4 @@
-import logo from "../assets/cineya.png";
+import logo from "../assets/cineya2.png";
 import { NavLink, useLocation } from "react-router-dom";
 import Search from "./Search.tsx";
 import Login from "../Auth/Login.tsx";
@@ -11,7 +11,7 @@ export default function Header() {
         <img
           src={logo}
           alt="логотип сайта"
-          className="w-10 md:w-12 cursor-pointer"
+          className="w-15 md:w-20 cursor-pointer"
           onClick={() => window.location.reload()}
         />
 

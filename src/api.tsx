@@ -1,4 +1,4 @@
-import type {GenreFilmsResponse} from "./type.ts";
+import type {CastResponse, GenreFilmsResponse} from "./type.ts";
 
 const BASE_URL = import.meta.env.VITE_API_URL || ''
 
@@ -31,5 +31,10 @@ export async function searchByGenre(genreId: number, page: number): Promise<Genr
 
 export async function fetchNewFilm(page: number): Promise<GenreFilmsResponse> {
     const response = await fetch(`${BASE_URL}/api/new-films?page=${page}`)
+    return response.json()
+}
+
+export async function fetchCast(id: number | string): Promise<CastResponse> {
+    const response = await fetch(`${BASE_URL}/api/cast?id=${id}`)
     return response.json()
 }

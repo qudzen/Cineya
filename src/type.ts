@@ -24,3 +24,15 @@ export interface GenreFilmsResponse {
     total_pages: number
     total_results: number
 }
+
+export interface CastMember {
+    id: number
+    name: string
+    character: string
+    profile_path: string | null
+}
+
+export interface CastResponse {
+    id: number
+    cast: CastMember[]
+}
