@@ -3,7 +3,7 @@ import Movies from "./Pages/Movies/Movies.tsx";
 import Home from "./Pages/Home/Home.tsx";
 import NewMovies from "./Pages/New Film/NewMovies.tsx";
 import MyList from "./Pages/My List/MyList.tsx";
-import PageFilm from "./Pages/Components/PageFilm.tsx";
+import PageFilm from "./Pages/Components/Page film/PageFilm.tsx";
 import HeaderMobile from "./Header/HeaderMobile.tsx";
 import Header from "./Header/Header.tsx";
 import Callback from "./Auth/Callback.tsx";

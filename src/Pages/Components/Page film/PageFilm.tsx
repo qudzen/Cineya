@@ -1,8 +1,10 @@
 import {useParams} from 'react-router-dom'
-import useLike from "../Hooks/useLike.tsx";
+import useLike from "../../Hooks/useLike.tsx";
 import {FaStar, FaCalendar, FaClock, FaHeart} from 'react-icons/fa'
 import {useQuery} from "@tanstack/react-query";
-import {fetchCast, fetchMovie} from "../../api.tsx";
+import {fetchCast, fetchMovie} from "../../../api.tsx";
+import type {CastMember} from "../../../type.ts";
+import Trailer from "./Trailer.tsx";
 
 export default function PageFilm() {
     const {id} = useParams()
@@ -97,11 +99,13 @@ export default function PageFilm() {
                         </div>
                     </div>
 
+                    <Trailer />
+
                     {castData && castData.cast.length > 0 && (
                         <div className='relative z-10 px-6 md:px-20 pb-20'>
                             <h2 className='text-xl md:text-2xl font-bold text-white mb-6'>Актёрский состав</h2>
                             <div className='flex gap-6 overflow-x-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden'>
-                                {castData.cast.slice(0, 20).map((actor) => (
+                                {castData.cast.slice(0, 20).map((actor: CastMember) => (
                                     <div key={actor.id} className='flex w-24 flex-shrink-0 flex-col items-center gap-2'>
                                         {actor.profile_path ? (
                                             <img
@@ -110,7 +114,7 @@ export default function PageFilm() {
                                                 className='h-40 object-cover rounded-2xl'
                                             />
                                         ) : (
-                                            <div className='flex h-24 w-24 items-center justify-center rounded-full bg-white/5 text-2xl font-bold text-white/40'>
+                                            <div className='flex h-40 w-24 rounded-2xl items-center justify-center bg-white/5 text-2xl font-bold text-white/40'>
                                                 {actor.name?.charAt(0)}
                                             </div>
                                         )}

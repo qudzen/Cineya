@@ -38,3 +38,8 @@ export async function fetchCast(id: number | string): Promise<CastResponse> {
     const response = await fetch(`${BASE_URL}/api/cast?id=${id}`)
     return response.json()
 }
+
+export async function fetchTrailer(id: number | string) {
+    const response = await fetch(`${BASE_URL}/api/trailer?id=${id}`)
+    return response.json()
+}

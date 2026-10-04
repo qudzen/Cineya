@@ -69,7 +69,7 @@ export default function Search() {
     return (
         <div className='relative'>
             <input
-                className='bg-transparent border border-white/20 text-white text-sm font-light tracking-widest rounded-full px-5 py-2 w-64 placeholder:text-white/30 focus:outline-none focus:border-yellow-400 transition-colors'
+                className='bg-transparent border border-white/20 text-white text-sm font-light tracking-widest rounded-full px-5 py-2 w-54 placeholder:text-white/30 focus:outline-none focus:border-yellow-400 transition-colors'
                 type="search"
                 placeholder="ПОИСК"
                 onChange={onSearch}
