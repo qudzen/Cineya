@@ -7,6 +7,7 @@ import PageFilm from "./Pages/Components/Page film/PageFilm.tsx";
 import HeaderMobile from "./Header/HeaderMobile.tsx";
 import Header from "./Header/Header.tsx";
 import Callback from "./Auth/Callback.tsx";
+import PageActor from "./Pages/Components/PageActor.tsx";
 
 
 
@@ -24,6 +25,7 @@ function App() {
               <Route path='/myList' element={<MyList />} />
               <Route path='/movie/:id' element={<PageFilm />} />
               <Route path='/callback' element={<Callback />} />
+              <Route path='/actor/:actorId' element={<PageActor />} />
           </Routes>
         </div>
     )

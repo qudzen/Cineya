@@ -36,3 +36,13 @@ export interface CastResponse {
     id: number
     cast: CastMember[]
 }
+
+export interface Actor {
+    id: number
+    name: string
+    biography: string
+    birthday: string
+    place_of_birth: string
+    profile_path: string | null
+    popularity: number
+}
