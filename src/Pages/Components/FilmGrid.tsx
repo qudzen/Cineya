@@ -1,9 +1,9 @@
 import {Link} from "react-router-dom";
-import type {Result} from "../../type.ts";
+import type {FilmCardData} from "../../type.ts";
 import SetFilm from "./SetFilm.tsx";
 
 interface FilmGridProps {
-    films: Result[];
+    films: FilmCardData[];
 }
 
 export default function FilmGrid({films}: FilmGridProps) {

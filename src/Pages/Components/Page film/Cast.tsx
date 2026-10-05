@@ -1,4 +1,4 @@
-import {useParams} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import {useQuery} from "@tanstack/react-query";
 import {fetchCast} from "../../../api.tsx";
 import type {CastMember} from "../../../type.ts";
@@ -18,6 +18,7 @@ export default function Cast() {
             <h2 className='text-xl md:text-2xl font-bold text-white mb-6'>Актёрский состав</h2>
             <div className='flex gap-6 overflow-x-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden'>
                 {castData.cast.slice(0, 20).map((actor: CastMember) => (
+                    <Link key={actor.id} to={`/actor/${actor.id}`}>
                     <div key={actor.id} className='flex w-24 flex-shrink-0 flex-col items-center gap-2'>
                         {actor.profile_path ? (
                             <img
@@ -33,6 +34,7 @@ export default function Cast() {
                         <p className='text-center text-xs font-light text-white'>{actor.name}</p>
                         <p className='text-center text-[10px] font-light text-white/40'>{actor.character}</p>
                     </div>
+                    </Link>
                 ))}
             </div>
         </div>

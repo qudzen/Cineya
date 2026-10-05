@@ -1,8 +1,8 @@
-import type {Result} from "../../type.ts";
+import type {FilmCardData} from "../../type.ts";
 import {FaStar} from "react-icons/fa";
 
 interface Props {
-    film: Result;
+    film: FilmCardData;
     variant?: 'default' | 'featured';
 }
 
@@ -32,13 +32,19 @@ export default function SetFilm({film, variant = 'default'}: Props) {
         return (
             <div className="group flex h-full gap-4 rounded-xl border border-white/10 bg-white/[0.03] p-3 transition-colors hover:border-yellow-400/30 hover:bg-white/[0.06]">
                 <div className="relative shrink-0 overflow-hidden rounded-lg">
-                    <img
-                        className="aspect-[2/3] w-24 object-cover transition-transform duration-300 group-hover:scale-105 sm:w-28"
-                        src={`https://image.tmdb.org/t/p/w342${film.poster_path}`}
-                        alt={film.title}
-                        loading="lazy"
-                        decoding="async"
-                    />
+                    {film.poster_path ? (
+                        <img
+                            className="aspect-[2/3] w-24 object-cover transition-transform duration-300 group-hover:scale-105 sm:w-28"
+                            src={`https://image.tmdb.org/t/p/w342${film.poster_path}`}
+                            alt={film.title}
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    ) : (
+                        <div className="flex aspect-[2/3] w-24 items-center justify-center bg-white/5 text-2xl font-bold text-white/40 sm:w-28">
+                            {film.title?.charAt(0)}
+                        </div>
+                    )}
                     <span className={`absolute right-1.5 top-1.5 flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[10px] font-semibold ring-1 backdrop-blur-sm ${rating.badge}`}>
                         {film.vote_average > 1 && <FaStar size={8}/>}
                         {rating.label}
@@ -58,13 +64,19 @@ export default function SetFilm({film, variant = 'default'}: Props) {
     return (
         <div className="group w-full">
             <div className="relative overflow-hidden rounded-lg">
-                <img
-                    className="aspect-[2/3] w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    src={`https://image.tmdb.org/t/p/w342${film.poster_path}`}
-                    alt={film.title}
-                    loading="lazy"
-                    decoding="async"
-                />
+                {film.poster_path ? (
+                    <img
+                        className="aspect-[2/3] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        src={`https://image.tmdb.org/t/p/w342${film.poster_path}`}
+                        alt={film.title}
+                        loading="lazy"
+                        decoding="async"
+                    />
+                ) : (
+                    <div className="flex aspect-[2/3] w-full items-center justify-center bg-white/5 text-2xl font-bold text-white/40">
+                        {film.title?.charAt(0)}
+                    </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100"/>
                 <span className={`absolute right-2 top-2 flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[11px] font-semibold ring-1 backdrop-blur-sm ${rating.badge}`}>
                     {film.vote_average > 1 && <FaStar size={9}/>}
@@ -73,6 +85,7 @@ export default function SetFilm({film, variant = 'default'}: Props) {
             </div>
             <h3 className="mt-2 line-clamp-2 text-left text-sm text-white">{film.title}</h3>
             <p className="mt-0.5 text-left text-xs text-zinc-500">{film.release_date?.slice(0, 4)}</p>
+            {film.character && <p className="mt-0.5 text-left text-xs text-white/40">{film.character}</p>}
         </div>
     )
 }
