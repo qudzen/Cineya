@@ -1,5 +1,9 @@
-const RAW_URL = process.env.SUPABASE_URL || ''
-const SECRET_KEY = process.env.SUPABASE_SECRET_KEY || ''
+const RAW_URL = process.env.SUPABASE_URL || process.env.SUPERBASE_URL || ''
+const SECRET_KEY =
+    process.env.SUPABASE_SECRET_KEY ||
+    process.env.SUPERBASE_KEY ||
+    process.env.SUPABASE_KEY ||
+    ''
 
 function restBase(): string {
     const trimmed = RAW_URL.replace(/\/+$/, '')

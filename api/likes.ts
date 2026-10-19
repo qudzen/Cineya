@@ -15,7 +15,10 @@ async function rowExists(userId: string, movieId: number): Promise<boolean> {
     const r = await supabaseFetch(
         `/${TABLE}?yandex_user_id=eq.${encodeURIComponent(userId)}&movie_id=eq.${movieId}&select=id`
     )
-    if (!r.ok) throw new Error(`Supabase select failed: ${r.status}`)
+    if (!r.ok) {
+        const detail = await r.text().catch(() => '')
+        throw new Error(`Supabase select failed ${r.status}: ${detail.slice(0, 500)}`)
+    }
     const rows = await r.json()
     return Array.isArray(rows) && rows.length > 0
 }
@@ -31,7 +34,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             const r = await supabaseFetch(
                 `/${TABLE}?yandex_user_id=eq.${encodeURIComponent(userId)}&select=movie_data&order=created_at.desc`
             )
-            if (!r.ok) return res.status(500).json({ error: 'Failed to load likes' })
+            if (!r.ok) {
+                const detail = await r.text().catch(() => '')
+                console.error(`[likes GET] supabase ${r.status}: ${detail.slice(0, 800)}`)
+                return res.status(500).json({ error: 'Failed to load likes', status: r.status, detail: detail.slice(0, 300) })
+            }
             const rows = await r.json()
             const movies = (Array.isArray(rows) ? rows : [])
                 .map((row: { movie_data?: unknown }) => row.movie_data)
@@ -39,7 +46,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.json({ movies })
         } catch (err) {
             console.error('likes GET error:', err)
-            return res.status(500).json({ error: 'Failed to load likes' })
+            return res.status(500).json({ error: 'Failed to load likes', detail: String(err) })
         }
     }
 
@@ -66,6 +73,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                         body: JSON.stringify({ yandex_user_id: userId, movie_id: id, movie_data: movie }),
                     })
                     if (r.ok) added.push(id)
+                    else {
+                        const detail = await r.text().catch(() => '')
+                        console.error(`[likes merge] insert ${id} failed ${r.status}: ${detail.slice(0, 500)}`)
+                    }
                 }
                 return res.json({ added })
             }
@@ -80,7 +91,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                     `/${TABLE}?yandex_user_id=eq.${encodeURIComponent(userId)}&movie_id=eq.${movieId}`,
                     { method: 'DELETE' }
                 )
-                if (!r.ok) return res.status(500).json({ error: 'Failed to unlike' })
+                if (!r.ok) {
+                    const detail = await r.text().catch(() => '')
+                    console.error(`[likes] delete failed ${r.status}: ${detail.slice(0, 500)}`)
+                    return res.status(500).json({ error: 'Failed to unlike', detail: detail.slice(0, 300) })
+                }
                 return res.json({ liked: false })
             }
 
@@ -90,11 +105,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 method: 'POST',
                 body: JSON.stringify({ yandex_user_id: userId, movie_id: movieId, movie_data: movie }),
             })
-            if (!r.ok) return res.status(500).json({ error: 'Failed to like' })
+            if (!r.ok) {
+                const detail = await r.text().catch(() => '')
+                console.error(`[likes] insert failed ${r.status}: ${detail.slice(0, 800)}`)
+                return res.status(500).json({ error: 'Failed to like', status: r.status, detail: detail.slice(0, 300) })
+            }
             return res.json({ liked: true })
         } catch (err) {
             console.error('likes POST error:', err)
-            return res.status(500).json({ error: 'Failed to update like' })
+            return res.status(500).json({ error: 'Failed to update like', detail: String(err) })
         }
     }
 
