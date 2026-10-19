@@ -10,30 +10,28 @@ interface Props {
 export default function SliderFilm({sliderFilms}: Props) {
     const [direction, setDirection] = useState('right')
     const [indexSlider, setIndexSlider] = useState<number>(0)
+    const count = sliderFilms.length
 
     const nextFilm = () => {
         setDirection('right')
-        if (indexSlider === 4) {
-            setIndexSlider(0)
-        } else {
-            setIndexSlider(prev => prev + 1)
-        }
+        setIndexSlider(prev => (prev + 1) % count)
     }
 
     const prevFilm = () => {
         setDirection('left')
-        if (indexSlider === 0) {
-            setIndexSlider(4)
-        } else {
-            setIndexSlider(prev => prev - 1)
-        }
+        setIndexSlider(prev => (prev - 1 + count) % count)
+    }
+
+    const goTo = (index: number) => {
+        setDirection(index > indexSlider ? 'right' : 'left')
+        setIndexSlider(index)
     }
 
     return (
-        <div className='lg:grid lg:grid-cols-[70px_1fr_2fr_33px] lg:h-[calc(100vh-60px)] bg-black overflow-hidden lg:relative'>
-            <MobileSlider direction={direction} indexSlider={indexSlider} sliderFilms={sliderFilms} prevFilm={prevFilm} nextFilm={nextFilm} />
-            <div className="hidden lg:contents">
-                <DesktopSlider direction={direction} indexSlider={indexSlider} sliderFilms={sliderFilms} prevFilm={prevFilm} nextFilm={nextFilm}/>
+        <div className='bg-black'>
+            <MobileSlider direction={direction} indexSlider={indexSlider} sliderFilms={sliderFilms} prevFilm={prevFilm} nextFilm={nextFilm} goTo={goTo} />
+            <div className='hidden lg:block relative h-[calc(100vh-60px)] overflow-hidden'>
+                <DesktopSlider direction={direction} indexSlider={indexSlider} sliderFilms={sliderFilms} prevFilm={prevFilm} nextFilm={nextFilm} goTo={goTo} />
             </div>
         </div>
     )

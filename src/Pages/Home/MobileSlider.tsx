@@ -8,13 +8,14 @@ interface sliderProps {
     indexSlider: number
     prevFilm: () => void
     nextFilm: () => void
+    goTo: (index: number) => void
 }
 
-export default function MobileSlider({direction, indexSlider, sliderFilms, prevFilm, nextFilm}: sliderProps) {
+export default function MobileSlider({direction, indexSlider, sliderFilms, prevFilm, nextFilm, goTo}: sliderProps) {
     const film = sliderFilms[indexSlider]
 
     return (
-        <div className='relative w-full col-span-3 bg-black lg:hidden'>
+        <div className='relative w-full bg-black lg:hidden'>
             <div className='relative aspect-[16/10] w-full overflow-hidden'>
                 <img
                     key={indexSlider}
@@ -35,7 +36,7 @@ export default function MobileSlider({direction, indexSlider, sliderFilms, prevF
 
             <div
                 key={`info-${indexSlider}`}
-                className={`relative z-20 flex flex-row items-center gap-3 px-4 -mt-[calc(6.5rem*3/4)] pb-4 ${direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'}`}
+                className={`relative z-20 flex flex-row items-center gap-3 px-4 -mt-[calc(6.5rem*3/4)] pb-3 ${direction === 'left' ? 'animate-slide-left' : 'animate-slide-right'}`}
             >
                 <Link to={`/movie/${film.id}`} className='flex-shrink-0'>
                     <img
@@ -53,12 +54,25 @@ export default function MobileSlider({direction, indexSlider, sliderFilms, prevF
                     </Link>
                     <div className='flex items-center gap-3 text-xs text-zinc-400'>
                         <span className='flex items-center gap-1'>
-                            <FaStar size={10} className='text-yellow-400'/>
+                            <FaStar size={10} className='text-yellow-400' aria-hidden="true"/>
                             {film.vote_average > 0 ? Math.round(film.vote_average * 10) / 10 : 'Скоро'}
                         </span>
                         {film.release_date && <span>{new Date(film.release_date).getFullYear()}</span>}
                     </div>
                 </div>
+            </div>
+
+            <div className='flex items-center justify-center gap-2 px-4 pb-4'>
+                {sliderFilms.map((f, i) => (
+                    <button
+                        key={f.id}
+                        type="button"
+                        onClick={() => goTo(i)}
+                        aria-label={`Перейти к фильму ${i + 1}`}
+                        aria-current={i === indexSlider ? 'true' : undefined}
+                        className={`h-1.5 rounded-full transition-all ${i === indexSlider ? 'w-5 bg-yellow-400' : 'w-1.5 bg-white/30'}`}
+                    />
+                ))}
             </div>
         </div>
     )

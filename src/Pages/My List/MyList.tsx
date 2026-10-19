@@ -7,13 +7,17 @@ import {FaHeart} from "react-icons/fa";
 import {useQuery} from "@tanstack/react-query";
 
 export default function MyList() {
-    const {likeList} = useLike();
+    const {likeList, likedMovies, isLoadingLikes, isErrorLikes, isAuthenticated} = useLike();
 
-    const {data: movies = [], isLoading, isError} = useQuery<Result[]>({
+    const {data: guestMovies = [], isLoading: guestLoading, isError: guestError} = useQuery<Result[]>({
         queryKey: ['myList', likeList],
         queryFn: () => Promise.all(likeList.map(id => fetchMovie(id))),
-        enabled: likeList.length > 0,
+        enabled: !isAuthenticated && likeList.length > 0,
     })
+
+    const movies = isAuthenticated ? likedMovies : guestMovies
+    const isLoading = isAuthenticated ? isLoadingLikes : guestLoading
+    const isError = isAuthenticated ? isErrorLikes : guestError
 
     return (
         <div className="pb-24 md:pb-10">

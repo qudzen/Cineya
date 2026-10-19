@@ -3,6 +3,13 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import Search from "./Search.tsx";
 import Login from "../Auth/Login.tsx";
 
+const navItems = [
+  { to: "/", label: "Главная" },
+  { to: "/movies", label: "Фильмы" },
+  { to: "/newMovies", label: "Новинки" },
+  { to: "/myList", label: "Моё" },
+];
+
 export default function Header() {
   const location = useLocation();
   return (
@@ -16,39 +23,19 @@ export default function Header() {
           />
         </Link>
 
-        <nav className="hidden md:flex items-center gap-12">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `text-sm font-light tracking-widest uppercase transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 ${isActive ? "text-yellow-400" : "text-white/50 hover:text-white"}`
-            }
-          >
-            Главная
-          </NavLink>
-          <NavLink
-            to="/movies"
-            className={({ isActive }) =>
-              `text-sm font-light tracking-widest uppercase transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 ${isActive ? "text-yellow-400" : "text-white/50 hover:text-white"}`
-            }
-          >
-            Фильмы
-          </NavLink>
-          <NavLink
-            to="/newMovies"
-            className={({ isActive }) =>
-              `text-sm font-light tracking-widest uppercase transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 ${isActive ? "text-yellow-400" : "text-white/50 hover:text-white"}`
-            }
-          >
-            Новинки
-          </NavLink>
-          <NavLink
-            to="/myList"
-            className={({ isActive }) =>
-              `text-sm font-light tracking-widest uppercase transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 ${isActive ? "text-yellow-400" : "text-white/50 hover:text-white"}`
-            }
-          >
-            Моё
-          </NavLink>
+        <nav className="hidden md:flex items-center gap-8">
+          {navItems.map(({ to, label }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === "/"}
+              className={({ isActive }) =>
+                `relative text-sm font-light tracking-widest uppercase transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 after:absolute after:left-0 after:-bottom-1.5 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-yellow-400 after:transition-transform after:content-[''] hover:after:scale-x-100 ${isActive ? "text-yellow-400 after:scale-x-100" : "text-white/50 hover:text-white"}`
+              }
+            >
+              {label}
+            </NavLink>
+          ))}
         </nav>
       </div>
 

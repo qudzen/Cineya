@@ -35,7 +35,7 @@ export default function PageFilm() {
                     <div className='absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent'/>
 
                     {/* КОНТЕНТ */}
-                    <div className='relative z-10 flex min-h-[calc(100vh-60px)] flex-col md:flex-row md:items-center gap-10 px-6 md:px-20 pt-20 pb-20'>
+                    <div className='relative z-10 mx-auto flex min-h-[calc(100vh-60px)] w-full max-w-7xl flex-col md:flex-row md:items-center gap-10 px-6 md:px-12 pt-16 pb-16'>
 
                         {/* ПОСТЕР */}
                         <div className='flex-shrink-0'>
@@ -95,7 +95,7 @@ export default function PageFilm() {
                         </div>
                     </div>
 
-                    <div className='relative z-10 mt-10 mb-20 px-6 md:px-20'>
+                    <div className='relative z-10 mx-auto mt-10 mb-20 w-full max-w-7xl px-6 md:px-12'>
                         <div className='flex flex-col md:flex-row md:items-start gap-10'>
                             <div className='md:flex-shrink-0'>
                                 <Trailer />
