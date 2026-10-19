@@ -14,7 +14,11 @@ export default function PageActor() {
         queryKey: ['actor', actorId],
         queryFn: () => fetchActor(actorId ?? '')
     })
-    if (isLoading) return <span className="loading loading-spinner loading-xl" role="status" aria-live="polite"></span>
+    if (isLoading) return (
+        <div className="flex min-h-screen items-center justify-center">
+            <span className="loading loading-spinner loading-xl" role="status" aria-live="polite"></span>
+        </div>
+    )
     if (isError) return <div role="alert">Не удалось загрузить актера.</div>
     if (!data) return null
 

@@ -1,5 +1,5 @@
 import type {Result} from "../../type.ts";
-import {FaChevronLeft, FaChevronRight} from "react-icons/fa";
+import {FaChevronLeft, FaChevronRight, FaStar} from "react-icons/fa";
 import {Link} from "react-router-dom";
 
 interface sliderProps {
@@ -37,7 +37,10 @@ export default function DesktopSlider({direction, indexSlider, sliderFilms, prev
                 <Link to={`/movie/${film.id}`}><h1
                     className='text-3xl md:text-5xl font-bold'>{film.title}</h1></Link>
                 <div className='flex gap-5 text-zinc-400'>
-                    <span>⭐ {film.vote_average.toFixed(1)}</span>
+                    <span className='flex items-center gap-1'>
+                        <FaStar size={14} className='text-yellow-400' aria-hidden="true"/>
+                        {film.vote_average > 0 ? Math.round(film.vote_average * 10) / 10 : 'Скоро'}
+                    </span>
                     {year && <span>{year}</span>}
                 </div>
                 <p className='hidden md:block text-zinc-300 leading-6 max-w-[500px]'>{film.overview}</p>

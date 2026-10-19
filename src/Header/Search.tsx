@@ -29,7 +29,7 @@ export default function Search() {
         return () => clearTimeout(timer)
     }, [search])
 
-    const {data} = useQuery<{results: Result[]}>({
+    const {data, isFetching} = useQuery<{results: Result[]}>({
         queryKey: ['search', debouncedSearch],
         queryFn: () => fetchSearch(debouncedSearch),
         enabled: debouncedSearch.trim().length > 0,
@@ -60,6 +60,8 @@ export default function Search() {
             const direction = e.key === "ArrowDown" ? 1 : -1
             const indexItem = (currentIndex + direction + hints.length) % hints.length
             setCurrentIndex(indexItem)
+        } else if (e.key === "Escape") {
+            setIsOpen(false)
         }
 
     }
@@ -71,29 +73,39 @@ export default function Search() {
             <input
                 className='bg-transparent border border-white/20 text-white text-sm font-light tracking-widest rounded-full px-5 py-2 w-36 md:w-54 placeholder:text-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:border-yellow-400 transition-colors'
                 type="search"
+                role="combobox"
                 placeholder="Поиск…"
                 aria-label="Поиск фильмов"
                 aria-expanded={isOpen}
                 aria-controls="search-hints"
+                aria-autocomplete="list"
+                aria-activedescendant={isOpen && hints.length > 0 ? `search-option-${hints[currentIndex].id}` : undefined}
                 autoComplete="off"
                 spellCheck={false}
                 onChange={onSearch}
                 value={search}
                 onKeyDown={handleKeyDown}
             />
-            {isOpen && hints.length > 0 && (
-                <div ref={hintsRef} id="search-hints" className='absolute top-full mt-2 w-full bg-zinc-900 border border-white/10 rounded-xl overflow-hidden z-50'>
-                    {hints.map((i, index) => (
+            {isOpen && (
+                <div ref={hintsRef} id="search-hints" role="listbox" aria-label="Результаты поиска" className='absolute top-full mt-2 w-full bg-zinc-900 border border-white/10 rounded-xl overflow-hidden z-50'>
+                    {hints.length > 0 ? hints.map((i, index) => (
                         <button
                             key={i.id}
+                            id={`search-option-${i.id}`}
                             type="button"
+                            role="option"
+                            aria-selected={index === currentIndex}
                             onClick={() => { setIsOpen(false); navigate(`/movie/${i.id}`) }}
                             onMouseEnter={() => setCurrentIndex(index)}
                             className={`w-full text-left px-5 py-3 text-sm font-light tracking-wider text-white/70 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 ${index === currentIndex ? 'text-yellow-400 bg-white/5' : 'hover:bg-white/3 hover:text-yellow-400'}`}
                         >
                             {i.title}
                         </button>
-                    ))}
+                    )) : (
+                        <div className="px-5 py-3 text-sm font-light tracking-wider text-white/40">
+                            {isFetching ? 'Поиск…' : 'Ничего не найдено'}
+                        </div>
+                    )}
                 </div>
             )}
         </div>

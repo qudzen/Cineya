@@ -1,5 +1,6 @@
 import type {FilmCardData} from "../../type.ts";
-import {FaStar} from "react-icons/fa";
+import {FaHeart, FaStar} from "react-icons/fa";
+import useLike from "../Hooks/useLike.tsx";
 
 interface Props {
     film: FilmCardData;
@@ -26,7 +27,9 @@ export function getRatingStyle(vote: number) {
 }
 
 export default function SetFilm({film, variant = 'default'}: Props) {
+    const {likeList} = useLike()
     const rating = getRatingStyle(film.vote_average)
+    const isLiked = likeList.includes(film.id)
 
     if (variant === 'featured') {
         return (
@@ -44,6 +47,12 @@ export default function SetFilm({film, variant = 'default'}: Props) {
                         <div className="flex aspect-[2/3] w-24 items-center justify-center bg-white/5 text-2xl font-bold text-white/40 sm:w-28">
                             {film.title?.charAt(0)}
                         </div>
+                    )}
+                    {isLiked && (
+                        <span className="absolute left-1.5 top-1.5 flex items-center justify-center rounded-md bg-black/60 p-1.5 text-red-500 ring-1 ring-white/20 backdrop-blur-sm">
+                            <FaHeart size={12} aria-hidden="true"/>
+                            <span className="sr-only">В избранном</span>
+                        </span>
                     )}
                     <span className={`absolute right-1.5 top-1.5 flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[10px] font-semibold ring-1 backdrop-blur-sm ${rating.badge}`}>
                         {film.vote_average > 1 && <FaStar size={8}/>}
@@ -78,6 +87,12 @@ export default function SetFilm({film, variant = 'default'}: Props) {
                     </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100"/>
+                {isLiked && (
+                    <span className="absolute left-2 top-2 flex items-center justify-center rounded-md bg-black/60 p-1.5 text-red-500 ring-1 ring-white/20 backdrop-blur-sm">
+                        <FaHeart size={12} aria-hidden="true"/>
+                        <span className="sr-only">В избранном</span>
+                    </span>
+                )}
                 <span className={`absolute right-2 top-2 flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[11px] font-semibold ring-1 backdrop-blur-sm ${rating.badge}`}>
                     {film.vote_average > 1 && <FaStar size={9}/>}
                     {rating.label}
