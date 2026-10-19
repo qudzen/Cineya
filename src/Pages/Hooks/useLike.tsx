@@ -28,6 +28,7 @@ export default function useLike() {
         queryKey: ['likes'],
         queryFn: fetchLikes,
         enabled: isAuthenticated,
+        retry: false,
     })
 
     useEffect(() => {
