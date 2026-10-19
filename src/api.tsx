@@ -1,4 +1,4 @@
-import type {ActorResponse, CastResponse, GenreFilmsResponse, Result} from "./type.ts";
+import type {ActorResponse, CastResponse, GenreFilmsResponse} from "./type.ts";
 
 const BASE_URL = import.meta.env.VITE_API_URL || ''
 
@@ -46,34 +46,5 @@ export async function fetchTrailer(id: number | string) {
 
 export async function fetchActor(actorId: number | string): Promise<ActorResponse> {
     const response = await fetch(`${BASE_URL}/api/actor?actorId=${actorId}`)
-    return response.json()
-}
-
-export async function fetchLikes(): Promise<Result[]> {
-    const response = await fetch(`${BASE_URL}/api/likes`, { credentials: 'include' })
-    if (!response.ok) throw new Error('Не удалось загрузить избранное')
-    const data = await response.json()
-    return data.movies ?? []
-}
-
-export async function toggleLike(movieId: number): Promise<{ liked: boolean }> {
-    const response = await fetch(`${BASE_URL}/api/likes`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ movieId }),
-    })
-    if (!response.ok) throw new Error('Не удалось обновить избранное')
-    return response.json()
-}
-
-export async function mergeLikes(ids: number[]): Promise<{ added: number[] }> {
-    const response = await fetch(`${BASE_URL}/api/likes`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids }),
-    })
-    if (!response.ok) throw new Error('Не удалось объединить избранное')
     return response.json()
 }

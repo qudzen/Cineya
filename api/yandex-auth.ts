@@ -1,5 +1,4 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { setSessionCookie } from './_lib/auth'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -48,12 +47,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         const userData = await userResponse.json()
-
-        if (!userData.id) {
-            return res.status(400).json({ error: 'Missing user id' })
-        }
-
-        await setSessionCookie(res, String(userData.id))
         return res.json(userData)
     } catch (err) {
         console.error('Yandex auth error:', err)

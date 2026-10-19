@@ -9,12 +9,8 @@ interface YandexUser {
 
 export function useAuth() {
     const [user, setUser] = useState<YandexUser | null>(() => {
-        try {
-            const saved = localStorage.getItem('user')
-            return saved ? JSON.parse(saved) : null
-        } catch {
-            return null
-        }
+        const saved = localStorage.getItem('user')
+        return saved ? JSON.parse(saved) : null
     })
 
     const exchangeCode = async (code: string) => {
@@ -24,7 +20,6 @@ export function useAuth() {
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/api/yandex-auth?code=${code}&code_verifier=${verifier}`,
-                { credentials: 'include' },
             )
 
             if (!response.ok) {
@@ -66,18 +61,10 @@ export function useAuth() {
         }
     }, [])
 
-    const logout = async () => {
-        try {
-            await fetch(`${import.meta.env.VITE_API_URL}/api/logout`, {
-                method: 'POST',
-                credentials: 'include',
-            })
-        } catch (err) {
-            console.error('Ошибка выхода:', err)
-        }
+    const logout = () => {
         setUser(null)
         localStorage.removeItem('user')
     }
 
-    return { user, isAuthenticated: !!user, logout }
+    return { user, logout }
 }
